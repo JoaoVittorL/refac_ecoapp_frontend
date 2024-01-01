@@ -18,6 +18,7 @@ export type UsersType = {
     tipo: string;
     equipe_id?: null | string;
     token?:string
+    status?: string | undefined;
   };
   
   export type OrderType = {
@@ -36,6 +37,7 @@ export type UsersType = {
     coordenador_id: null | string;
     supervisor_id: null | string;
     contrato: string;
+    status?: string | undefined;
   };
   
   export type ConstructionType = {

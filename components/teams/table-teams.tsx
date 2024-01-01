@@ -12,6 +12,7 @@ import { FaPen } from "react-icons/fa";
 import { useState } from "react";
 import FilterUsers from "./filter-teams";
 import CreateUser from "./create-teams";
+import { useRouter } from "next/navigation";
 interface PaginationProps {
   data: TeamsType[];
   token: string | null;
@@ -23,6 +24,7 @@ const TableUsers: React.FC<PaginationProps> = ({
   data: TeamsType[];
   token: string | null;
 }) => {
+  const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const headers = [
     "Equipe ",
@@ -56,7 +58,7 @@ const TableUsers: React.FC<PaginationProps> = ({
     }
   };
   const handleClickPage = (id: string) => {
-    console.log(id);
+    router.push(`teams/${id}`);
   };
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -79,7 +81,9 @@ const TableUsers: React.FC<PaginationProps> = ({
                 <TableHead>Coordenador</TableHead>
                 <TableHead>Supervisor</TableHead>
                 <TableHead className="max-w-[40px]">Contrato</TableHead>
-                <TableHead className="max-w-[40px] text-center">Ações</TableHead>
+                <TableHead className="max-w-[40px] text-center">
+                  Ações
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -90,8 +94,13 @@ const TableUsers: React.FC<PaginationProps> = ({
                   <TableCell>{item.lider_id}</TableCell>
                   <TableCell>{item.coordenador_id}</TableCell>
                   <TableCell>{item.supervisor_id}</TableCell>
-                  <TableCell className="max-w-[40px]">{item.contrato}</TableCell>
-                  <TableCell className="max-w-[40px] " onClick={() => handleClickPage(item.id as string)}>
+                  <TableCell className="max-w-[40px]">
+                    {item.contrato}
+                  </TableCell>
+                  <TableCell
+                    className="max-w-[40px] cursor-pointer "
+                    onClick={() => handleClickPage(item.id as string)}
+                  >
                     <FaPen className="w-full mx-auto" />
                   </TableCell>
                 </TableRow>

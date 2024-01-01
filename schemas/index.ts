@@ -57,7 +57,7 @@ export const ProfileSchema = z
   });
 
 export const createUserSchema = z.object({
-  name: z.string().min(7, "O nome foi digitado corretamente?"),
+  name: z.string().min(1, "O nome foi digitado corretamente?"),
   cpf: z
     .string()
     .min(11, "O CPF foi digitado corretamente?")
@@ -74,10 +74,22 @@ export const createUserSchema = z.object({
     .refine((email) => {
       return email.endsWith("@ecoeletrica.com.br");
     }, "O email deve conter o dominio da Ecoelétrica"),
-  password: z.string().min(6, "A senha deve conter pelo menos 6 digitos"),
+  password: z.string(),
   role: z.string().refine((value) => value !== "Escolha", {
     message: "Tipo obrigatório",
   }),
+  status: z
+    .string()
+    .refine((value) => value !== "Escolha", {
+      message: "Status obrigatório",
+    })
+    .transform((value) => {
+      if (value == "0") {
+        return "INATIVO";
+      } else {
+        return "ATIVO";
+      }
+    }),
 });
 
 export const QuestionsSchema = z.object({
@@ -120,6 +132,30 @@ export const TeamsSchema = z.object({
   tipo: z.string().nonempty("Tipo obrigatório"),
   lider: z.string().nonempty("Lider obrigatório"),
   contrato: z.string().nonempty("Contrato obrigatório"),
-  supervisor: z.string(),
-  coordenador: z.string(),
+  supervisor_id: z.string().transform((value) => {
+    if (value == null) {
+      return "";
+    } else {
+      return value;
+    }
+  }),
+  coordenador_id: z.string().transform((value) => {
+    if (value == null) {
+      return "";
+    } else {
+      return value;
+    }
+  }),
+  status: z
+    .string()
+    .refine((value) => value !== "Escolha", {
+      message: "Status obrigatório",
+    })
+    .transform((value) => {
+      if (value == "0") {
+        return "INATIVO";
+      } else {
+        return "ATIVO";
+      }
+    }),
 });

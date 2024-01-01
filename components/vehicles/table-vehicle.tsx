@@ -24,7 +24,6 @@ const TableUsers: React.FC<PaginationProps> = ({
   token: string | null;
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const headers = ["Placa", "Tipo", "Equipe", "Cidade", "Ações"];
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 14;
 

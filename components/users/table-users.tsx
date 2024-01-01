@@ -12,6 +12,7 @@ import { FaPen } from "react-icons/fa";
 import { useState } from "react";
 import FilterUsers from "./filter-users";
 import CreateUser from "./create-user";
+import { useRouter } from "next/navigation";
 interface PaginationProps {
   data: UsersType[];
   token: string | null;
@@ -23,8 +24,8 @@ const TableUsers: React.FC<PaginationProps> = ({
   data: UsersType[];
   token: string | null;
 }) => {
+  const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const headers = ["CPF", "Nome", "Tipo", "Equipe", "Ações"];
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 12;
 
@@ -48,7 +49,7 @@ const TableUsers: React.FC<PaginationProps> = ({
     }
   };
   const handleClickPage = (id: string) => {
-    console.log(id);
+    router.push(`users/${id}`);
   };
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -67,6 +68,7 @@ const TableUsers: React.FC<PaginationProps> = ({
               <TableRow>
                 <TableHead className="max-w-[60px]">CPF</TableHead>
                 <TableHead className="max-w-[200px]">Nome</TableHead>
+                <TableHead className="max-w-[200px]">E-mail</TableHead>
                 <TableHead className="max-w-[100px]">Tipo</TableHead>
                 <TableHead className="max-w-[200px]">Equipe</TableHead>
                 <TableHead className="text-center">Ações</TableHead>
@@ -77,9 +79,12 @@ const TableUsers: React.FC<PaginationProps> = ({
                 <TableRow key={item.id}>
                   <TableCell className="max-w-[60px]">{item.cpf}</TableCell>
                   <TableCell className="max-w-[200px]">{item.nome}</TableCell>
+                  <TableCell className="max-w-[200px]">{item.email}</TableCell>
                   <TableCell className="max-w-[100px]">{item.tipo}</TableCell>
-                  <TableCell className="max-w-[200px]">{item.equipe_id}</TableCell>
-                  <TableCell onClick={() => handleClickPage(item.id as string)}>
+                  <TableCell className="max-w-[200px]">
+                    {item.equipe_id}
+                  </TableCell>
+                  <TableCell className="cursor-pointer" onClick={() => handleClickPage(item.id as string)}>
                     <FaPen className="w-full mx-auto" />
                   </TableCell>
                 </TableRow>
