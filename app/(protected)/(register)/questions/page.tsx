@@ -2,6 +2,14 @@ import FormQuestions from "@/components/questions/table-question";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata= {
+  title: "Página de perguntas",
+  description: "Página de perguntas direcionada a consultar e cadastrar novas perguntas.",
+};
+
+
 const getQuestions = async () =>
   api.get("/perguntas").then((response) => {
     return response.data;

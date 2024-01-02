@@ -72,4 +72,5 @@ export type UsersType = {
     placa: string;
     tipo: string;
     equipe_id: string;
+    token: string;
   };

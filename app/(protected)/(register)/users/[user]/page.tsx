@@ -1,18 +1,16 @@
 import UpdateUser from "@/components/users/update-user";
+import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
 async function getInfoAboutUser(id: string) {
   const token = await currentToken();
-  const res = fetch(
-    `http://localhost:3333/colaboradores/${id}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    }
-  );
-  const data = (await res).json();
+  const res = api.get(`/colaboradores/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  });
+  const data = (await res).data;
   return data;
 }
 const userPageId = async ({ params }: { params: { user: string } }) => {

@@ -2,6 +2,14 @@ import FormVehicles from "@/components/vehicles/table-vehicle";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata= {
+  title: "Página de veículos",
+  description: "Página de veículos direcionada a consultar e cadastrar novos veículos.",
+};
+
+
 const getVehicles = async () =>
   api.get("/veiculos").then((response) => {
     return response.data;

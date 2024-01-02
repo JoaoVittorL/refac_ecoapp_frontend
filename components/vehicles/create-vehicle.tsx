@@ -54,29 +54,30 @@ const CreateUser: React.FC<CreateUserProps> = ({
   const onSubmit = async (data: z.infer<typeof VehicleSchema>) => {
     setError("");
     setSucess("");
-    const response = await fetch("/api/obras", {
+    const response = await fetch("/api/vehicles", {
       method: "POST",
       body: JSON.stringify({
         placa: data.placa,
-        equipe: data.equipe,
+        equipe_id: data.equipe,
         tipo: data.tipo,
+        token: token,
       }),
     });
 
     if (response.status == 200 || response.status == 201) {
       startTransition(() => {
-        setSucess("Pergunta criada com sucesso!");
+        setSucess("Veículo criado com sucesso!");
         form.reset();
       });
     } else {
       startTransition(() => {
-        setError("Erro ao criar pergunta!");
+        setError("Erro ao criar veículo!");
       });
     }
   };
 
   return (
-    <Modal title="Criar obra" isOpen={isOpen} onClose={handleOpenModal}>
+    <Modal title="Criar veículo" isOpen={isOpen} onClose={handleOpenModal}>
       <FormError message={error} />
       <FormSucess message={sucess} />
       <Form {...form}>
@@ -100,32 +101,11 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 </FormItem>
               )}
             />
-
             <FormField
-              control={form.control}
-              name="tipo"
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="md:w-[50%] w-full" name="tipo">
-                    <SelectValue placeholder="Tipo" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="PESADO">PESADO</SelectItem>
-                    <SelectItem value="APOIO">APOIO</SelectItem>
-                    <SelectItem value="LEVE">LEVE</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-          </div>
-          <FormField
             control={form.control}
             name={"equipe"}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="md:w-[50%] w-full">
                 <FormLabel>Equipe</FormLabel>
                 <FormControl>
                   <Input
@@ -139,6 +119,28 @@ const CreateUser: React.FC<CreateUserProps> = ({
               </FormItem>
             )}
           />
+
+          </div>
+          <FormField
+              control={form.control}
+              name="tipo"
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <SelectTrigger name="tipo">
+                    <SelectValue placeholder="Tipo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PESADO">PESADO</SelectItem>
+                    <SelectItem value="APOIO">APOIO</SelectItem>
+                    <SelectItem value="LEVE">LEVE</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          
           <Button disabled={isPeding} type="submit" className="w-full">
             Criar
           </Button>

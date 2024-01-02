@@ -1,6 +1,13 @@
 import FormService from "@/components/activies/table-activies";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Página de serviços",
+  description: "Página de serviços direcionada a consultar e cadastrar novos serviços",
+};
+
 
 const getServices = async () =>
   api.get("/servicos").then((response) => {

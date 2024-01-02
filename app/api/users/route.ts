@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       tipo: body.tipo,
     };
     console.log(body.token);
-    const response = await fetch("http://localhost:3333/colaboradores", {
+    const response = await fetch("https://touching-grizzly-logical.ngrok-free.app/colaboradores", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

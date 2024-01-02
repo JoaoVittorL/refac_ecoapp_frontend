@@ -2,6 +2,13 @@ import FormTeams from "@/components/teams/table-teams";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata= {
+  title: "Página de equipes",
+  description: "Página de equipes direcionada a consultar e cadastrar novas equipes.",
+};
+
 const getData = async () =>
   api.get("/equipes").then((response) => {
     return response.data;
