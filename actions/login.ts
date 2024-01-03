@@ -28,7 +28,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
           };
         default:
           return {
-            error: "Something went wrong",
+            error: "Login não foi encontrado!",
           };
       }
     }

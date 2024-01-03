@@ -21,7 +21,7 @@ export default {
         const validateFilds = LoginSchema.safeParse(credentials);
         if (validateFilds.success) {
           const response = await axios.post(
-            "http://localhost:3333/autenticacao",
+            "https://touching-grizzly-logical.ngrok-free.app/autenticacao",
             {
               email: credentials?.email,
               senha: credentials?.password,

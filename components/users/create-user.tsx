@@ -67,7 +67,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
         token: token,
       }),
     });
-
+     console.log(response)
     if (response.status == 200 || response.status == 201) {
       startTransition(() => {
         setSucess("Usuário criado com sucesso!");

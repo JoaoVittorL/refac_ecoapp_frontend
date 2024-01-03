@@ -24,9 +24,9 @@ export function CarouselSize({ data, token }: PaginationProps) {
   }, []);
 
   if (!isClient) {
-    return null; // Renderiza um placeholder no lado do servidor
+    return null;
   }
-
+  console.log(data)
   return (
     <Carousel
       opts={{

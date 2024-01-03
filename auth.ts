@@ -48,17 +48,3 @@ export const {
   ...authConfig,
 });
 
-// callbacks: {
-//   async session({ token, session }) {
-//     console.log(token);
-//     if (token.sub && session.user) {
-//       session.user.id = token.sub;
-//       session.user.role = token.role;
-//     }
-//     return session;
-//   },
-//   async jwt({ token}) {
-//     token.role = "ADM";
-//     return token;
-//   },
-// },

@@ -1,6 +1,9 @@
 import { ConstructionType } from "@/types/rotes";
 import { NextResponse } from "next/server";
 
+
+
+
 export async function POST(request: Request) {
   try {
     const body: ConstructionType = await request.json();

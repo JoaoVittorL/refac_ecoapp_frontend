@@ -9,10 +9,28 @@ export const metadata: Metadata= {
   description: "Página de equipes direcionada a consultar e cadastrar novas equipes.",
 };
 
-const getData = async () =>
-  api.get("/equipes").then((response) => {
-    return response.data;
-  });
+const getPessoaNome = async (pessoaId: number) => {
+  const response = await api.get(`/colaboradores/${pessoaId}`);
+  return response.data.nome;
+};
+
+const getData = async () =>{
+  const response = await api.get("/equipes")
+  const teams = response.data
+
+  for (const team of teams) {
+    const liderNome = await getPessoaNome(team.lider_id);
+    const supervisorNome = await getPessoaNome(team.supervisor_id);
+    const coordenadorNome = await getPessoaNome(team.coordenador_id);
+  
+    team.lider_id = liderNome;
+    team.supervisor_id = supervisorNome;
+    team.coordenador_id = coordenadorNome;
+  }
+  return teams;
+}
+
+
 
 const teamsPage = async () => {
   const teams = await getData();

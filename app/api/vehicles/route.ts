@@ -1,22 +1,19 @@
+import { api } from '@/data/api';
 import { VehicleType } from '@/types/rotes';
 import { NextResponse } from 'next/server';
-
+// const response = await api.post("/perguntas", {
+//   pergunta_resposta: body.pergunta_resposta,
+//   categoria: body.categoria,
+//   tipo: body.tipo,
+// }) 
 export async function POST(request: Request) {
     try {
       const body: VehicleType = await request.json();
-      const user = {
-        nome: body.placa,
-        email: body.tipo,
-        senha: body.equipe_id,
-      };
-     const response = await fetch("https://touching-grizzly-logical.ngrok-free.app/veiculos", {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: `Token ${body.token}`,
-         },
-         body: JSON.stringify(user),
-       });
+       const response = await api.post("/veiculos", {
+         nome: body.placa,
+         email: body.tipo,
+         senha: body.equipe_id,
+      }) 
        if (response.status == 200 || response.status == 201) {
          return NextResponse.json({ message: "Veículo criado com sucesso" });
        }
@@ -28,19 +25,13 @@ export async function POST(request: Request) {
   export async function PUT(request: Request) {
     try {
       const body: VehicleType = await request.json();
-      const user = {
+      const response = await api.put(`/veiculos/${body.id}`, {
         nome: body.placa,
         email: body.tipo,
         senha: body.equipe_id,
-      };
-     const response = await fetch("https://touching-grizzly-logical.ngrok-free.app/veiculos", {
-         method: "PUT",
-         headers: {
-           "Content-Type": "application/json",
-           Authorization: `Token ${body.token}`,
-         },
-         body: JSON.stringify(user),
-       });
+     }) 
+      
+       console.log(response)
        if (response.status == 200 || response.status == 201) {
          return NextResponse.json({ message: "Veículo criado com sucesso" });
        }

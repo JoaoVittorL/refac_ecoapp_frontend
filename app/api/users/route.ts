@@ -11,7 +11,6 @@ export async function POST(request: Request) {
       cpf: body.cpf,
       tipo: body.tipo,
     };
-    console.log(body.token);
     const response = await fetch("https://touching-grizzly-logical.ngrok-free.app/colaboradores", {
       method: "POST",
       headers: {
