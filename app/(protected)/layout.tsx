@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 import Logo from "../../public/logo.svg";
 import Sidebar from "@/components/Sidebar/sidebar-layout";

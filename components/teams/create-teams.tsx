@@ -59,7 +59,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
     setError("");
     setSucess("");
     
-    const response = await fetch("/api/obras", {
+    const response = await fetch("/api/constructions", {
       method: "POST",
       body: JSON.stringify({
         equipe: data.equipe,
