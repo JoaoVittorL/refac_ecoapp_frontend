@@ -77,3 +77,19 @@ export type UsersType = {
     equipe_id: string;
     token: string;
   };
+
+  export type TurnsType = {
+    id : string
+    equipe_id : string
+    equipe: string
+    nome: string
+    data: string
+    placa: string
+    token?: string
+  }
+  export type SheduleType = {
+    id : string
+    obra_id : string
+    equipe_id : string
+    data : string
+  }
