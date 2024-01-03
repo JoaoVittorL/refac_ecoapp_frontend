@@ -1,15 +1,16 @@
 import UpdateTeam from "@/components/teams/update-team";
+import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
 async function getInfoAboutTeam(id: string) {
   const token = await currentToken();
-  const res = fetch(`http://localhost:3333/equipes/${id}`, {
+  const res = api.get(`/equipes/${id}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Token ${token}`,
     },
   });
-  const data = (await res).json();
+  const data = (await res).data;
   return data;
 }
 

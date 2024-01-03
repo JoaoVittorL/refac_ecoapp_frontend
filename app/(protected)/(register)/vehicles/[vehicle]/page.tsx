@@ -3,13 +3,8 @@ import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
 async function getInfoAboutUser(id: string) {
-  const token = await currentToken();
-  const res = api.get(`/veiculos/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Token ${token}`,
-    },
-  });
+  // const token = await currentToken();
+  const res = api.get(`/veiculos/${id}`);
   const data = (await res).data;
   return data;
 }

@@ -50,23 +50,25 @@ const CreateUser: React.FC<CreateUserProps> = ({
       equipe: "",
       tipo: "",
       lider: "",
-      supervisor: "",
-      coordenador: "",
+      supervisor_id: "",
+      coordenador_id: "",
       contrato: "",
     },
   });
   const onSubmit = async (data: z.infer<typeof TeamsSchema>) => {
     setError("");
     setSucess("");
+    
     const response = await fetch("/api/obras", {
       method: "POST",
       body: JSON.stringify({
         equipe: data.equipe,
         tipo: data.tipo,
         lider_id: data.lider,
-        supervisor_id: data.supervisor,
-        coordenador_id: data.coordenador,
+        supervisor_id: data.supervisor_id,
+        coordenador_id: data.coordenador_id,
         contrato: data.contrato,
+        token: token,
       }),
     });
 

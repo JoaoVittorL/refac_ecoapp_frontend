@@ -12,6 +12,7 @@ import { FaPen } from "react-icons/fa";
 import { useState } from "react";
 import FilterUsers from "./filter-vehicle";
 import CreateUser from "./create-vehicle";
+import { useRouter } from "next/navigation";
 interface PaginationProps {
   data: VehicleType[];
   token: string | null;
@@ -23,6 +24,7 @@ const TableUsers: React.FC<PaginationProps> = ({
   data: VehicleType[];
   token: string | null;
 }) => {
+  const route = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 14;
@@ -47,12 +49,11 @@ const TableUsers: React.FC<PaginationProps> = ({
     }
   };
   const handleClickPage = (id: string) => {
-    console.log(id);
+    route.push(`/vehicles/${id}`);
   };
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
-
   return (
     <div className="max-w-[1440px] w-full mx-auto">
       {!modalIsOpen ? (
@@ -78,7 +79,7 @@ const TableUsers: React.FC<PaginationProps> = ({
                   <TableCell>{item.tipo}</TableCell>
                   <TableCell>{item.equipe_id}</TableCell>
                   <TableCell>CIDADE</TableCell>
-                  <TableCell onClick={() => handleClickPage(item.id as string)}>
+                  <TableCell className="cursor-pointer" onClick={() => handleClickPage(item.id as string)}>
                     <FaPen className="w-full mx-auto" />
                   </TableCell>
                 </TableRow>

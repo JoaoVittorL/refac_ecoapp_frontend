@@ -35,7 +35,6 @@ interface UpdateTeamProps {
 const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [sucess, setSucess] = useState<string | undefined>("");
-  console.log(data);
   const [isPeding, startTransition] = useTransition();
   const form = useForm<z.infer<typeof TeamsSchema>>({
     resolver: zodResolver(TeamsSchema),
@@ -50,20 +49,47 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
             ? "ATIVO"
             : "INATIVO"
           : "INATIVO",
+
+          supervisor_id: data.supervisor_id ?? undefined,
+          coordenador_id: data.coordenador_id ?? undefined,
     },
-    supervisor_id: data.supervisor_id,
-    coordenador_id: data.coordenador_id,
   });
 
   const [equipe, setName] = useState(data.equipe);
   const [lider, setLider] = useState(data.lider_id);
-  //   const [email, setEmail] = useState(data.email);
-  const onSubmit = async (data: z.infer<typeof TeamsSchema>) => {};
+  const onSubmit = async (data: z.infer<typeof TeamsSchema>) => {
+    setSucess("")
+    setError("")
+    const response = await fetch("/api/teams", {
+        method: "PUT",
+        body: JSON.stringify({
+            id: id,
+            lider_id: data.lider,
+            supervisor_id: data.supervisor_id,
+            coordenador_id: data.coordenador_id,
+            tipo: data.tipo,
+            status: data.status,
+            contrato: data.status,
+            token: token,
+        }),
+      });
+      if (response.status == 200 || response.status == 201) {
+        startTransition(() => {
+          setSucess("Serviço atualizado com sucesso");
+        });
+      }else{
+        startTransition(() => {
+          setError("Erro ao atualizar serviço");
+        });
+      }
+  };
 
   return (
     <Form {...form}>
+      <FormError message={error} />
+      <FormSucess message={sucess} />
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
+         <FormField
           control={form.control}
           name={"equipe"}
           defaultValue={data.equipe}
@@ -83,9 +109,9 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
               <FormMessage />
             </FormItem>
           )}
-        />
-        <FormField
-          control={form.control}
+          />
+         <FormField
+            control={form.control}
           name={"lider"}
           render={({ field }) => (
             <FormItem>
@@ -102,15 +128,14 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
               </FormControl>
               <FormMessage />
             </FormItem>
-          )}
-        />
-        <div className="flex flex-col md:flex-row justify-between gap-4">
+           )}
+          />
           <FormField
             control={form.control}
             name="tipo"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="md:w-[50%] w-full" name="tipo">
+                <SelectTrigger  name="tipo">
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
@@ -126,7 +151,7 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
             name="contrato"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="md:w-[50%] w-full" name="contrato">
+                <SelectTrigger  name="contrato">
                   <SelectValue placeholder="Contrato" />
                 </SelectTrigger>
                 <SelectContent>
@@ -141,7 +166,7 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
             name="status"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="md:w-[50%] w-full" name="status">
+                <SelectTrigger  name="status">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -151,15 +176,13 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
               </Select>
             )}
           />
-        </div>
-        <div className="flex flex-col md:flex-row justify-between gap-4">
           <FormField
             control={form.control}
             name="supervisor_id"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger
-                  className="md:w-[50%] w-full"
+                  
                   name="supervisor_id"
                 >
                   <SelectValue placeholder="Supervisor" />
@@ -172,7 +195,6 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
               </Select>
             )}
           />
-        </div>
         <BackTable isPeding={isPeding} />
       </form>
     </Form>

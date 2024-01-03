@@ -1,10 +1,7 @@
 "use client";
-
-import { useState, useTransition } from "react";
+import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSucess } from "../form-sucess";
-import Modal from "../modal";
-import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -13,11 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Input } from "../ui/input";
-import { ConstructionSchema } from "@/schemas";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Select,
   SelectContent,
@@ -25,70 +17,91 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { revalidatePath } from "next/cache";
-interface CreateUserProps {
-  token: string | null;
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { ConstructionSchema } from "@/schemas";
+import { z } from "zod";
+import { Input } from "../ui/input";
+import { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {  ConstructionType } from "@/types/rotes";
+import BackTable from "../back-table";
 
-const CreateUser: React.FC<CreateUserProps> = ({
-  token,
-  isOpen,
-  onClose,
-}: CreateUserProps) => {
-  function handleOpenModal() {
-    onClose();
-  }
+interface UpdateActiviesProps {
+  data: ConstructionType;
+  id: string;
+  token: string | null;
+}
+// projeto: 'B-1000187',
+//     descricao: 'UB-CCOL-POV-VARZEA DE BAIXO-CENTRO VARZE',
+//     status: 'PROGRAMADA',
+//     carteira: 'setembro/2023',
+//     cidade: 'RIO DE CONTAS',
+//     utd: 'BRUMADO'
+const UpdateActivie = ({ data, id,token }: UpdateActiviesProps) => {
+  const [projeto, setProjeto] = useState(data.projeto);
+
+
+  const [status, setStatus] = useState(data.status);
+  const [carteira, setCarteira] = useState(data.carteira);
+  const [cidade, setCidade] = useState(data.cidade);
+  const [utd, setUtd] = useState(data.utd);
+  const [descricao, setDescricao] = useState(data.descricao);
+
   const [error, setError] = useState<string | undefined>("");
   const [sucess, setSucess] = useState<string | undefined>("");
-
   const [isPeding, startTransition] = useTransition();
   const form = useForm<z.infer<typeof ConstructionSchema>>({
     resolver: zodResolver(ConstructionSchema),
     defaultValues: {
-      projeto: "",
-      descricao: "",
-      cidade: "",
-      utd: "",
-      carteira: "",
-      status: "",
+        projeto: projeto,
+        descricao: descricao,
+        cidade: cidade,
+        utd: utd,
+        carteira: carteira,
+        status: status,
     },
   });
-  const onSubmit = async (data: z.infer<typeof ConstructionSchema>) => {
-    setError("");
-    setSucess("");
+  useEffect(() => {
+    form.setValue('projeto', projeto);
+  }, [projeto,form]);
+
+  useEffect(() => {
+    form.setValue('descricao', descricao);
+  }, [descricao,form]);
+
+
+
+  const onSubmit = async (values: z.infer<typeof ConstructionSchema>) => {
+    setSucess("")
+    setError("")
     const response = await fetch("/api/constructions", {
-      method: "POST",
-      body: JSON.stringify({
-        projeto: data.projeto,
-        descricao: data.descricao,
-        cidade: data.cidade,
-        utd: data.utd,
-        carteira: data.carteira,
-        status: data.status,
-        token: token,
-      }),
-    });
-
-    if (response.status == 200 || response.status == 201) {
-      startTransition(() => {
-        setSucess("Pergunta criada com sucesso!");
-        form.reset();
+        method: "PUT",
+        body: JSON.stringify({
+           id: id,
+            projeto: values.projeto,
+            descricao: values.descricao,
+            cidade: values.cidade,
+            utd: values.utd,
+            carteira: values.carteira,
+            status: values.status,
+            token: token,
+        }),
       });
-    } else {
-      startTransition(() => {
-        setError("Erro ao criar pergunta!");
-      });
-    }
+      if (response.status == 200 || response.status == 201) {
+        startTransition(() => {
+          setSucess("Serviço atualizado com sucesso");
+        });
+      }else{
+        startTransition(() => {
+          setError("Erro ao atualizar serviço");
+        });
+      }
   };
-
   return (
-    <Modal title="Criar obra" isOpen={isOpen} onClose={handleOpenModal}>
+    <Form {...form}>
       <FormError message={error} />
       <FormSucess message={sucess} />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
           <FormField
             control={form.control}
             name={"projeto"}
@@ -100,7 +113,9 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     disabled={isPeding}
                     {...field}
                     type="projeto"
-                    placeholder="Digite o projeto"
+                    placeholder="Digite a código"
+                    value={projeto} 
+                    onChange={(e) => setProjeto(e.target.value)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -115,80 +130,82 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Input
-                    disabled={isPeding}
-                    {...field}
-                    type="descricao"
-                    placeholder="Digite a descrição"
+                     disabled={isPeding}
+                     {...field}
+                     type="descricao"
+                     placeholder="Digite a descrição"
+                     value={descricao} 
+                     onChange={(e) => setDescricao(e.target.value)}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
-            <FormField
+          <FormField
               control={form.control}
               name="cidade"
               render={({ field }) => (
                 <Select
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={field.onChange}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="cidade">
+                  <SelectTrigger name="cidade">
                     <SelectValue placeholder="Cidade" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="VITORIA DA CONQUISTA">VITORIA DA CONQUISTA</SelectItem>
+                    <SelectItem value="ITABERABA">ITABERABA</SelectItem>
+                    <SelectItem value="RIO DE CONTAS">RIO DE CONTAS</SelectItem>
                   </SelectContent>
                 </Select>
               )}
-            />
-            <FormField
+            />  
+          <FormField
               control={form.control}
               name="utd"
               render={({ field }) => (
                 <Select
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={field.onChange}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="utd">
+                  <SelectTrigger  name="utd">
                     <SelectValue placeholder="UTD" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="ITABERABA">ITABERABA</SelectItem>
+                    <SelectItem value="BRUMADO">BRUMADO</SelectItem>
                   </SelectContent>
                 </Select>
               )}
             />
-          </div>
-          <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
-            <FormField
+           <FormField
               control={form.control}
               name="carteira"
               render={({ field }) => (
                 <Select
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={field.onChange}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="carteira">
+                  <SelectTrigger name="carteira">
                     <SelectValue placeholder="Carteira" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="SETEMBRO/2022">SETEMBRO/2022</SelectItem>
+                    <SelectItem value="setembro/2023">setembro/2023</SelectItem>
                   </SelectContent>
                 </Select>
               )}
-            />
-            <FormField
+            /> 
+          <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
                 <Select
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={field.onChange}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="status">
+                  <SelectTrigger  name="status">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -197,13 +214,9 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 </Select>
               )}
             />
-          </div>
-          <Button disabled={isPeding} type="submit" className="w-full">
-            Criar
-          </Button>
+          <BackTable isPeding={isPeding} />
         </form>
       </Form>
-    </Modal>
   );
 };
-export default CreateUser;
+export default UpdateActivie;

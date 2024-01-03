@@ -47,19 +47,20 @@ const CreateUser: React.FC<CreateUserProps> = ({
     resolver: zodResolver(ServiceSchema),
     defaultValues: {
       codigo: "",
-      tipo: "",
+      unidade: "",
       descricao: "",
     },
   });
-  const onSubmit = async (data: z.infer<typeof ServiceSchema>) => {
+  const onSubmit = async (values: z.infer<typeof ServiceSchema>) => {
     setError("");
     setSucess("");
-    const response = await fetch("/api/obras", {
+    const response = await fetch("/api/activies", {
       method: "POST",
       body: JSON.stringify({
-        codigo: data.codigo,
-        descricao: data.descricao,
-        tipo: data.tipo,
+        codigo: values.codigo,
+        descricao: values.descricao,
+        unidade: values.unidade,
+        token: token,
       }),
     });
 
@@ -103,14 +104,14 @@ const CreateUser: React.FC<CreateUserProps> = ({
 
             <FormField
               control={form.control}
-              name="tipo"
+              name="unidade"
               render={({ field }) => (
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="tipo">
-                    <SelectValue placeholder="Tipo" />
+                  <SelectTrigger className="md:w-[50%] w-full" name="unidade">
+                    <SelectValue placeholder="Unidade" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="M">M</SelectItem>

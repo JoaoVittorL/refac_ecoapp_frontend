@@ -12,6 +12,7 @@ import { FaPen } from "react-icons/fa";
 import { useState } from "react";
 import FilterUsers from "./filter-activies";
 import CreateUser from "./create-activies";
+import { useRouter } from "next/navigation";
 interface PaginationProps {
   data: ServiceType[];
   token: string | null;
@@ -23,8 +24,8 @@ const TableUsers: React.FC<PaginationProps> = ({
   data: ServiceType[];
   token: string | null;
 }) => {
+  const route = useRouter()
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const headers = ["Código", "Descrição", "Unidade", "Ações"];
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 14;
 
@@ -48,7 +49,7 @@ const TableUsers: React.FC<PaginationProps> = ({
     }
   };
   const handleClickPage = (id: string) => {
-    console.log(id);
+    route.push(`/activities/${id}`);
   };
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -77,7 +78,7 @@ const TableUsers: React.FC<PaginationProps> = ({
                   <TableCell>{item.codigo}</TableCell>
                   <TableCell>{item.descricao}</TableCell>
                   <TableCell>{item.unidade}</TableCell>
-                  <TableCell onClick={() => handleClickPage(item.id as string)}>
+                  <TableCell className="cursor-pointer" onClick={() => handleClickPage(item.id as string)}>
                     <FaPen className="w-full mx-auto" />
                   </TableCell>
                 </TableRow>

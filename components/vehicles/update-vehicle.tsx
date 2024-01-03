@@ -47,9 +47,11 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
 
     },
   });
+  console.log(data)
 
   //   const [email, setEmail] = useState(data.email);
   const onSubmit = async (data: z.infer<typeof VehicleSchema>) => {
+    console.log(data)
     const response = await fetch("/api/vehicles", {
         method: "PUT",
         body: JSON.stringify({
@@ -58,8 +60,6 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
           tipo: data.tipo,
         }),
       });
-      
-
       if (response.status == 200 || response.status == 201) {
         startTransition(() => {
           setSucess("Veículo atualizado com sucesso");
@@ -118,25 +118,22 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
             </FormItem>
           )}
         />
-        <div className="flex flex-col md:flex-row justify-between gap-4">
           <FormField
             control={form.control}
             name="tipo"
             render={({ field }) => (
               <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="md:w-[50%] w-full" name="tipo">
+                <SelectTrigger name="tipo">
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="LM">LM</SelectItem>
-                  <SelectItem value="LV">LV</SelectItem>
-                  <SelectItem value="APOIO">APOIO</SelectItem>
+                  <SelectItem value="caminhão">caminhão</SelectItem>
+                  <SelectItem value="leve">leve</SelectItem>
+                  <SelectItem value="CAMINHÃO">CAMINHÃO</SelectItem>
                 </SelectContent>
               </Select>
             )}
           />
-          
-        </div>
         <BackTable isPeding={isPeding} />
       </form>
     </Form>

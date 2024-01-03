@@ -1,5 +1,4 @@
 import * as z from "zod";
-
 export const LoginSchema = z.object({
   email: z
     .string()
@@ -10,7 +9,6 @@ export const LoginSchema = z.object({
     }, "O email deve conter o dominio da Ecoelétrica"),
   password: z.string().min(1, { message: "Senha inválida" }),
 });
-
 export const RegisterSchema = z.object({
   email: z
     .string()
@@ -31,7 +29,6 @@ export const RegisterSchema = z.object({
   password: z.string().min(6, { message: "Senha inválida" }),
   name: z.string().min(1, { message: "Nome inválido" }),
 });
-
 export const ProfileSchema = z
   .object({
     nome: z.string().nonempty("Nome obrigatório"),
@@ -55,7 +52,6 @@ export const ProfileSchema = z
     message: "As senhas precisam ser iguais",
     path: ["confirmPassword"],
   });
-
 export const createUserSchema = z.object({
   name: z.string().min(1, "O nome foi digitado corretamente?"),
   cpf: z
@@ -91,13 +87,11 @@ export const createUserSchema = z.object({
       }
     }),
 });
-
 export const QuestionsSchema = z.object({
   pergunta: z.string().min(7, "O nome foi digitado corretamente?"),
   tipo: z.string().nonempty("Selecione o tipo"),
   categoria: z.string().nonempty("Selecione a categoria"),
 });
-
 export const ConstructionSchema = z.object({
   projeto: z.string().nonempty("Projeto obrigatório"),
   descricao: z.string().nonempty("Descrição obrigatória"),
@@ -116,12 +110,11 @@ export const ConstructionSchema = z.object({
 });
 export const ServiceSchema = z.object({
   codigo: z.string().nonempty("Equipe obrigatória"),
-  tipo: z.string().refine((value) => value !== "Escolha", {
+  descricao: z.string().min(1, "Descrição obrigatória"),
+  unidade: z.string().refine((value) => value !== "Escolha", {
     message: "Tipo obrigatório",
   }),
-  descricao: z.string().min(1, "Descrição obrigatória"),
 });
-
 export const VehicleSchema = z.object({
   equipe: z.string().nonempty("Equipe obrigatória"),
   placa: z.string().nonempty("Placa obrigatória"),

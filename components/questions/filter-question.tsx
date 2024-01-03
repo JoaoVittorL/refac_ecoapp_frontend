@@ -12,11 +12,15 @@ interface PropsFormFilter {
     e: React.ChangeEvent<HTMLSelectElement> | string
   ) => void;
   handleOpenModal: () => void;
+  handleDelete: () => void;
+  isDelete: string[];
 }
 
 const FilterUsers = ({
   handleFilterChange,
   handleOpenModal,
+  handleDelete,
+  isDelete,
 }: PropsFormFilter) => {
   return (
     <div className="flex flex-col justify-end gap-4 md:flex-row mb-10">
@@ -31,6 +35,11 @@ const FilterUsers = ({
         </SelectContent>
       </Select>
       <Button onClick={handleOpenModal}>Criar</Button>
+       {isDelete.length > 0 && (
+          <Button onClick={handleDelete} variant={"destructive"}>
+            Deletar
+          </Button>
+        )}
     </div>
   );
 };

@@ -24,9 +24,9 @@ const TableUsers: React.FC<PaginationProps> = ({
   token: string | null;
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const headers = ["Tipo", "Categoria", "Perguntas", "Ações"];
+  const [isDelete, setDelete] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const usersPerPage = 12;
+  const usersPerPage = 10;
 
   const [filteredUsers, setFilteredUsers] = useState<QuestionType[]>(data);
   const offset = currentPage * usersPerPage;
@@ -53,6 +53,47 @@ const TableUsers: React.FC<PaginationProps> = ({
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
+  
+  const handleCheckboxChange = (id: string) => {
+    if (isDelete.includes(id)) {
+      setDelete(isDelete.filter((item) => item !== id));
+    } else {
+      setDelete([...isDelete, id]);
+    }
+  };
+
+  const handleDelete = async () => {
+    isDelete?.forEach(async (id) => {
+      try {
+        const response = await fetch("/api/questions", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+          body: JSON.stringify({
+            id: id,
+          }),
+        });  
+        const data = await response.json();
+        if (data.message == "Pergunta atualizada com sucesso!") {
+          const beforeDeleteList = filteredUsers.filter((item) => {
+            if (item.id != id) {
+              return item;
+            }
+          });
+          setFilteredUsers(beforeDeleteList);
+        } else {
+          alert(
+            "Erro ao deletar pergunta. Por favor, tente novamente mais tarde!",
+          );
+        }
+        setDelete([]);
+      } catch (error) {
+        console.error("Erro ao deletar pergunta:", error);
+      }
+    });
+  }
 
   return (
     <div className="max-w-[1440px] w-full mx-auto">
@@ -61,6 +102,8 @@ const TableUsers: React.FC<PaginationProps> = ({
           <FilterUsers
             handleFilterChange={handleFilterChange}
             handleOpenModal={handleOpenModal}
+            isDelete={isDelete}
+            handleDelete={handleDelete}
           />
           <Table className="max-h-[600px]">
             <TableHeader>
@@ -88,10 +131,14 @@ const TableUsers: React.FC<PaginationProps> = ({
                   </TableCell>
                   <TableCell>{item.pergunta_resposta}</TableCell>
                   <TableCell
-                    className="max-w-[100px] min-w-[100px]"
-                    onClick={() => handleClickPage(item.id as string)}
-                  >
-                    <FaPen className="w-full mx-auto" />
+                    className="max-w-[100px] min-w-[100px] text-center">
+                    <input
+                        id="disabled-checkbox"
+                        type="checkbox"
+                        className="w-6 h-6  bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        checked={isDelete.includes(item.id.toString())}
+                        onChange={() => handleCheckboxChange(item.id.toString())}
+                      />
                   </TableCell>
                 </TableRow>
               ))}

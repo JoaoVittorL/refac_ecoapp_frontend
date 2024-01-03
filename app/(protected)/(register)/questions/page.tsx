@@ -1,5 +1,6 @@
 import FormQuestions from "@/components/questions/table-question";
 import { api } from "@/data/api";
+import { QuestionType } from "@/types/rotes";
 import { currentToken } from "@/lib/auth";
 
 import { Metadata } from "next";
@@ -12,7 +13,13 @@ export const metadata: Metadata= {
 
 const getQuestions = async () =>
   api.get("/perguntas").then((response) => {
-    return response.data;
+    const data = response.data.filter((item : QuestionType) => {
+      if(item.data_final == null){
+        return item
+      }
+    })
+     
+  return data
   });
 
 const usersPage = async () => {

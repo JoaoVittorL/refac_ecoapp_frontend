@@ -12,6 +12,7 @@ import { FaPen } from "react-icons/fa";
 import { useState } from "react";
 import FilterUsers from "./filter-construction";
 import CreateUser from "./create-construction";
+import { useRouter } from "next/navigation";
 interface PaginationProps {
   data: ConstructionType[];
   token: string | null;
@@ -23,16 +24,9 @@ const TableUsers: React.FC<PaginationProps> = ({
   data: ConstructionType[];
   token: string | null;
 }) => {
+  const route = useRouter()
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const headers = [
-    "Projeto",
-    "Descrição",
-    "Cidade",
-    "UTD",
-    "Carteira",
-    "Status",
-    "Ações",
-  ];
+  
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 14;
 
@@ -56,7 +50,7 @@ const TableUsers: React.FC<PaginationProps> = ({
     }
   };
   const handleClickPage = (id: string) => {
-    console.log(id);
+    route.push(`/constructions/${id}`);
   };
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -91,7 +85,7 @@ const TableUsers: React.FC<PaginationProps> = ({
                   <TableCell>{item.utd}</TableCell>
                   <TableCell>{item.carteira}</TableCell>
                   <TableCell>{item.status}</TableCell>
-                  <TableCell onClick={() => handleClickPage(item.id as string)}>
+                  <TableCell className="cursor-pointer" onClick={() => handleClickPage(item.id as string)}>
                     <FaPen className="w-full mx-auto" />
                   </TableCell>
                 </TableRow>

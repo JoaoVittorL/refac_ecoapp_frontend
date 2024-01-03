@@ -1,3 +1,4 @@
+import { boolean } from "zod";
 
 export type UserType = {
   id:  string;
@@ -41,13 +42,14 @@ export type UsersType = {
   };
   
   export type ConstructionType = {
-    id: string;
+    id?: string;
     projeto: string;
     descricao: string;
-    status: string;
+    status: string | boolean;
     carteira: string;
     cidade: string;
     utd: string;
+    token?:string;
   };
   
   export type QuestionType = {
@@ -61,10 +63,11 @@ export type UsersType = {
   };
   
   export type ServiceType = {
-    id: string;
+    id?: string;
     codigo: string;
     descricao: string;
     unidade: string;
+    token?:string
   };
   
   export type VehicleType = {
