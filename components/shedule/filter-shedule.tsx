@@ -1,47 +1,30 @@
 "use client";
-import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import React from 'react';
+import { Input } from '../ui/input';
+
 interface PropsFormFilter {
-  handleFilterChange: (
-    e: React.ChangeEvent<HTMLSelectElement> | string
-  ) => void;
-  handleOpenModal: () => void;
-  handleDelete: () => void;
-  isDelete: string[];
+  handleFilterChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFilterChangeFinal: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FilterUsers = ({
-  handleFilterChange,
-  handleOpenModal,
-  handleDelete,
-  isDelete,
-}: PropsFormFilter) => {
+const FilterShedule = ({ handleFilterChange,handleFilterChangeFinal }: PropsFormFilter) => {
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleFilterChange(event);
+  };
+
+  const handleChangeFinal = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleFilterChangeFinal(event);
+  };
+  
   return (
-    <div className="flex flex-col justify-end gap-4 md:flex-row mb-10">
-      <Select onValueChange={(value) => handleFilterChange(value)}>
-        <SelectTrigger className="md:w-[180px] w-full">
-          <SelectValue placeholder="Tipo" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Filtrar por:">Filtrar por:</SelectItem>
-          <SelectItem value="veicular">VEICULAR</SelectItem>
-          <SelectItem value="apr">APR</SelectItem>
-        </SelectContent>
-      </Select>
-      <Button onClick={handleOpenModal}>Criar</Button>
-       {isDelete.length > 0 && (
-          <Button onClick={handleDelete} variant={"destructive"}>
-            Deletar
-          </Button>
-        )}
+    <div className="w-full max-w-[1440px] flex justify-start flex-row mx-auto my-4">
+      <Input type="date" onChange={handleChange} />
+
+
+      <Input type="date" onChange={handleChangeFinal} />
     </div>
   );
 };
 
-export default FilterUsers;
+export default FilterShedule;

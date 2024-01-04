@@ -1,18 +1,6 @@
+import { TurnoTurns } from "@/types/turn"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
-
-export interface Turno {
-    id: number
-    equipe_id: number
-    data: string
-    inicio_turno: string
-    fim_turno: string
-    inicio_deslocamento: string
-    fim_deslocamento: string
-    hodometro_inicial: number
-    hodometro_final: number
-    veiculo_id: number
-  }
-const BoxTeamTurn = ({data} : {data : Turno}) => {
+const BoxTeamTurn = ({data} : {data : TurnoTurns}) => {
     return (
        <Table>
             <TableHeader>
@@ -29,13 +17,13 @@ const BoxTeamTurn = ({data} : {data : Turno}) => {
             </TableHeader>
             <TableBody>
                 <TableRow >
-                  <TableCell className="max-w-[100px] text-center ">{data[0].equipe_id}</TableCell>
-                  <TableCell className="max-w-[100px] text-center ">{data[0].inicio_turno}</TableCell>
-                  <TableCell className="max-w-[100px] text-center ">{data[0].inicio_deslocamento}</TableCell>
-                  <TableCell className="max-w-[100px] text-center ">{data[0].fim_deslocamento}</TableCell>
-                  <TableCell className="max-w-[100px] text-center ">{data[0].fim_turno}</TableCell>
-                  <TableCell className="max-w-[100px] text-center ">{data[0].hodometro_final} </TableCell>
-                  <TableCell className="max-w-[100px] text-center ">{data[0].veiculo_id}</TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.equipe_id}</TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.inicio_turno}</TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.inicio_deslocamento}</TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.fim_deslocamento}</TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.fim_turno}</TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.hodometro_final} </TableCell>
+                  <TableCell className="max-w-[100px] text-center ">{data.veiculo_id}</TableCell>
                 </TableRow>
             </TableBody>
           </Table>

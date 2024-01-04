@@ -1,73 +1,20 @@
+import { RootTurn } from "@/types/turn";
 import BoxConstructionTurns from "./box-construction-turns";
 import BoxTeamTurn from "./box-team-turn";
-export interface Lancamento {
-  id: number;
-  codigo: string;
-  descricao: string;
-  unidade: string;
-  quantidade: number;
-}
+import LancamentTurn from "./box-lancament-turn";
 
-export interface Obra {
-  id: number;
-  projeto: string;
-  descricao: string;
-  status: string;
-  carteira: string;
-  cidade: string;
-  utd: string;
-}
-
-export interface ObrasTurno {
-  id: number;
-  obra_id: number;
-  turno_id: number;
-  fase_da_obra: string;
-  retorno_campo: string;
-  fora_programacao: number;
-  obra: Obra;
-  lancamentos: Lancamento[];
-}
-
-export interface Foto {
-  link_drive: string;
-  tipo: string;
-}
-
-export interface Turno {
-  id: number;
-  equipe_id: number;
-  data: string;
-  inicio_turno: string;
-  fim_turno: string;
-  inicio_deslocamento: string;
-  fim_deslocamento: string;
-  hodometro_inicial: number;
-  hodometro_final: number;
-  veiculo_id: number;
-}
-
-export interface Root {
-  data: {
-    turno: Turno[];
-    colaboradores: string[];
-    obras_turnos: ObrasTurno[];
-    fotos: Foto[];
-  };
-}
-
-
-
-  const TurnManipulation: React.FC<Root> = ({ data }) => {
-    var nomes = data.colaboradores.map((colaborador) => {
-      return colaborador
-    }).join(" - ")
+  const TurnManipulation: React.FC<RootTurn> = ({ data }) => {
     return <div>
-      <BoxTeamTurn data={data.turno}/>
-      <div className="border-t border-slate-200 p-4">
-        <p className="flex justify-center">{nomes}</p>
+      <BoxTeamTurn data={data.turno[0]}/>
+      <div className="border-y-2 my-10">
+        {
+          data.colaboradores.map((colaborador,index) => {
+            return <p key={index} className="my-2">{index} - {colaborador}</p>
+          })
+        }
       </div>
       <BoxConstructionTurns data={data.obras_turnos}/>
+      <LancamentTurn data={data.obras_turnos[0].lancamentos}/>
     </div>;
   }
   
