@@ -9,10 +9,12 @@ import {
   TableHeader,
 } from "../ui/table";
 import { FaPen } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterUsers from "./filter-users";
 import CreateUser from "./create-user";
 import { useRouter } from "next/navigation";
+import { ChangeEvent } from 'react';
+
 interface PaginationProps {
   data: UsersType[];
   token: string | null;
@@ -28,29 +30,55 @@ const TableUsers: React.FC<PaginationProps> = ({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 12;
+  const [filteredUsers, setFilteredUsers] = useState<UsersType[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const [filteredUsers, setFilteredUsers] = useState<UsersType[]>(data);
+  useEffect(() => {
+    setFilteredUsers(data);
+  }, [data]);
+
   const offset = currentPage * usersPerPage;
   const currentPageData = filteredUsers.slice(offset, offset + usersPerPage);
-
-  const pageCount = Math.ceil(data.length / usersPerPage);
+  const pageCount = Math.ceil(filteredUsers.length / usersPerPage);
 
   const handlePageClick = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-  const handleFilterChange = (
-    e: React.ChangeEvent<HTMLSelectElement> | string
-  ) => {
-    if (e == "Filtrar por:") {
-      setFilteredUsers(data);
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement> | string) => {
+    if (typeof e === 'string') {
+      const selectedValue = e;
+      if (selectedValue === 'Filtrar por:') {
+        setFilteredUsers(data);
+      } else {
+        const filteredList = data.filter((item) => item.tipo === selectedValue);
+        setFilteredUsers(filteredList);
+      }
     } else {
-      const filteredList = data.filter((item) => item.tipo === e);
-      setFilteredUsers(filteredList);
+      const selectedValue = e.target.value;
+      if (selectedValue === 'Filtrar por:') {
+        setFilteredUsers(data);
+      } else {
+        const filteredList = data.filter((item) => item.tipo === selectedValue);
+        setFilteredUsers(filteredList);
+      }
     }
   };
+
   const handleClickPage = (id: string) => {
     router.push(`users/${id}`);
   };
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+      if (typeof query === 'string' && query.length > 2) {
+          setSearchQuery(query);
+          const filteredData = data.filter((user) =>
+            user.nome.toLowerCase().includes(query.toLowerCase())
+          );
+          setFilteredUsers(filteredData);
+        }
+    }
+  }
+
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
@@ -60,9 +88,12 @@ const TableUsers: React.FC<PaginationProps> = ({
       {!modalIsOpen ? (
         <>
           <FilterUsers
+            handleUserChange={handleUserChange}
             handleFilterChange={handleFilterChange}
             handleOpenModal={handleOpenModal}
           />
+          <div>
+          </div>
           <Table>
             <TableHeader>
               <TableRow>

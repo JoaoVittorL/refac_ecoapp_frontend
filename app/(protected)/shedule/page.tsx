@@ -11,10 +11,9 @@ export const metadata: Metadata = {
 
 
 const getData = async () =>{
-  const equipesAgrupadas : {[key: string]: SheduleType[]} = {}
+  const equipesAgrupadas : {[key: string]: SheduleType[]} = {} 
   const response = await api.get("/programacoes")
-
-  const data = response.data.forEach((equipe : SheduleType) => {
+  response.data.forEach((equipe : SheduleType) => {
     const equipeId = equipe.equipe_id;
     if (equipesAgrupadas[equipeId]) {
       equipesAgrupadas[equipeId].push(equipe);

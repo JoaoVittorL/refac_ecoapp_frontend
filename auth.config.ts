@@ -22,7 +22,7 @@ export default {
         if (validateFilds.success) {
           
           const response = await axios.post(
-            "https://touching-grizzly-logical.ngrok-free.app/autenticacao",
+            "http://localhost:3333/autenticacao",
             {
               email: credentials?.email,
               senha: credentials?.password,
