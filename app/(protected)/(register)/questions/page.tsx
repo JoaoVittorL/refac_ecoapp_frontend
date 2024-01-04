@@ -6,7 +6,7 @@ import { currentToken } from "@/lib/auth";
 import { Metadata } from "next";
 
 export const metadata: Metadata= {
-  title: "Página de perguntas",
+  title: "Eco Elétrica - Perguntas",
   description: "Página de perguntas direcionada a consultar e cadastrar novas perguntas.",
 };
 

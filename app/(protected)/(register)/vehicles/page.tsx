@@ -5,7 +5,7 @@ import { currentToken } from "@/lib/auth";
 import { Metadata } from "next";
 
 export const metadata: Metadata= {
-  title: "Página de veículos",
+  title: "Eco Elétrica - Veiculos",
   description: "Página de veículos direcionada a consultar e cadastrar novos veículos.",
 };
 

@@ -3,7 +3,7 @@ import axios from "axios";
 const token = await currentToken()
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: "https://touching-grizzly-logical.ngrok-free.app",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

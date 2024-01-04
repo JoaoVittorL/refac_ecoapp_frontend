@@ -5,7 +5,7 @@ import { SheduleType } from "@/types/rotes";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Página de turnos",
+  title: "Eco Elétrica - Programação",
   description: "Página de turnos direcionada a consultar e cadastrar novos turnos",
 };
 

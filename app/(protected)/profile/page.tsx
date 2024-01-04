@@ -5,7 +5,7 @@ import { User } from "@/lib/auth";
 import { Metadata } from "next";
 
 export const metadata: Metadata= {
-  title: "Página de  perfil do usuário",
+  title: "Eco Elétrica - Perfil",
   description: "Página direcionada a editar o perfil do usuário.",
 };
 
