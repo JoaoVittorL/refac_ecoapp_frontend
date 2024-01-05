@@ -9,7 +9,7 @@ import {
   TableHeader,
 } from "../ui/table";
 import { FaPen } from "react-icons/fa";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import FilterTurns from "./filter-turns";
 import { useRouter } from "next/navigation";
 interface PaginationProps {
@@ -47,18 +47,35 @@ const TableTurns: React.FC<PaginationProps> = ({
       setFilteredUsers(filteredList);
     }
   };
+  const [searchQuery, setSearchQuery] = useState('');
   const handleClickPage = (id: string) => {
     router.push(`turns/${id}`);
   };
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+    if (typeof query === 'string') {
+      setSearchQuery(query);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const filteredData = data.filter((user) =>
+        user.equipe.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filteredData);
+    } else {
+      setFilteredUsers(data);
+    }
+  }, [searchQuery, data]);
 
   return (
     <div className="max-w-[1440px] w-full mx-auto">
           <FilterTurns
             handleFilterChange={handleFilterChange}
-            handleOpenModal={handleOpenModal}
+            handleUserChange={handleUserChange}
           />
           <Table className="max-h-[600px]">
             <TableHeader>

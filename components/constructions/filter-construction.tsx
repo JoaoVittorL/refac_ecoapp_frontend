@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
@@ -12,14 +13,17 @@ interface PropsFormFilter {
     e: React.ChangeEvent<HTMLSelectElement> | string
   ) => void;
   handleOpenModal: () => void;
+  handleUserChange :(e: React.ChangeEvent<HTMLInputElement> | string) => void;
 }
 
 const FilterUsers = ({
   handleFilterChange,
   handleOpenModal,
+  handleUserChange,
 }: PropsFormFilter) => {
   return (
     <div className="flex flex-col justify-end gap-4 md:flex-row mb-10">
+      <Input onChange={(event) => handleUserChange(event.target.value)} placeholder="Pesquise obra..."/>
       <Select onValueChange={(value) => handleFilterChange(value)}>
         <SelectTrigger className="md:w-[180px] w-full">
           <SelectValue placeholder="Tipo" />

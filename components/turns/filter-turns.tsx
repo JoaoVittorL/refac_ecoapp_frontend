@@ -12,16 +12,16 @@ interface PropsFormFilter {
   handleFilterChange: (
     e: React.ChangeEvent<HTMLSelectElement> | string
   ) => void;
-  handleOpenModal: () => void;
+  handleUserChange :(e: React.ChangeEvent<HTMLInputElement> | string) => void;
 }
 
 const FilterTurns = ({
   handleFilterChange,
-  handleOpenModal,
+  handleUserChange
 }: PropsFormFilter) => {
   return (
     <div className="flex flex-col justify-end gap-4 md:flex-row mb-10">
-      <Input type="text" placeholder="Encarregado"/>
+      <Input onChange={(event) => handleUserChange(event.target.value)} placeholder="Pesquise obra..."/>
       <Input type="date" placeholder="Data inicial"/>
       <Input type="date" placeholder="Data final"/>
       <Select onValueChange={(value) => handleFilterChange(value)}>

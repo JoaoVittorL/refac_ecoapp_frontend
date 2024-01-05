@@ -9,7 +9,7 @@ import {
   TableHeader,
 } from "../ui/table";
 import { FaPen } from "react-icons/fa";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import FilterUsers from "./filter-construction";
 import CreateUser from "./create-construction";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,7 @@ const TableUsers: React.FC<PaginationProps> = ({
   
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 14;
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredUsers, setFilteredUsers] = useState<ConstructionType[]>(data);
   const offset = currentPage * usersPerPage;
   const currentPageData = filteredUsers.slice(offset, offset + usersPerPage);
@@ -55,19 +55,36 @@ const TableUsers: React.FC<PaginationProps> = ({
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+    if (typeof query === 'string') {
+      setSearchQuery(query);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const filteredData = data.filter((user) =>
+        user.projeto.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filteredData);
+    } else {
+      setFilteredUsers(data);
+    }
+  }, [searchQuery, data]);
 
   return (
     <div className="max-w-[1440px] w-full mx-auto">
       {!modalIsOpen ? (
         <>
           <FilterUsers
+            handleUserChange={handleUserChange}
             handleFilterChange={handleFilterChange}
             handleOpenModal={handleOpenModal}
           />
           <Table className="max-h-[600px]">
             <TableHeader>
               <TableRow>
-                <TableHead>Placa</TableHead>
+                <TableHead>Projeto</TableHead>
                 <TableHead>Descrição</TableHead>
                 <TableHead>Cidade</TableHead>
                 <TableHead>UTD</TableHead>
