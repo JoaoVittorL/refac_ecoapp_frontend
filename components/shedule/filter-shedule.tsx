@@ -19,7 +19,6 @@ const FilterShedule = ({ handleFilterChange,handleFilterChangeFinal }: PropsForm
   
   return (
     <div className="w-full max-w-[1440px] flex justify-start flex-row mx-auto my-4 gap-4" >
-      <Input type="text"  />
       <Input type="date" onChange={handleChange} />
       <Input type="date" onChange={handleChangeFinal} />
     </div>

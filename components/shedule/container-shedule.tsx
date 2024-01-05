@@ -2,7 +2,7 @@
 import { SheduleType } from "@/types/rotes";
 import CarouselSize from "./carrossel-shedule";
 import FilterShedule from "./filter-shedule";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 interface PaginationProps {
   data: SheduleType[];
   token: string | null;
@@ -26,7 +26,7 @@ const Container = ({ data, token }: PaginationProps) => {
   const filterData = (initialDate: string, finalDate: string) => {
     const filteredData = Object.keys(data).reduce(
       (filtered: any, equipeId: string) => {
-        const equipeData = data[equipeId].filter((item: any) => {
+        const equipeData = data[equipeId  ].filter((item: any) => {
           const itemDate = new Date(item.data);
           const startDate = new Date(initialDate);
           const endDate = new Date(finalDate);
@@ -45,6 +45,7 @@ const Container = ({ data, token }: PaginationProps) => {
 
     setDataFiltrada(filteredData);
   };
+
 
   return (
     <div className="flex flex-col w-full mx-auto justify-center">
