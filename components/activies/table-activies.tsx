@@ -9,7 +9,7 @@ import {
   TableHeader,
 } from "../ui/table";
 import { FaPen } from "react-icons/fa";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import FilterUsers from "./filter-activies";
 import CreateUser from "./create-activies";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,7 @@ const TableUsers: React.FC<PaginationProps> = ({
   const route = useRouter()
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const usersPerPage = 14;
 
   const [filteredUsers, setFilteredUsers] = useState<ServiceType[]>(data);
@@ -55,11 +56,30 @@ const TableUsers: React.FC<PaginationProps> = ({
     setModalIsOpen(!modalIsOpen);
   };
 
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+    if (typeof query === 'string') {
+      setSearchQuery(query);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const filteredData = data.filter((user) =>
+        user.codigo.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filteredData);
+    } else {
+      setFilteredUsers(data);
+    }
+  }, [searchQuery, data]);
+
+
   return (
     <div className="max-w-[1440px] w-full mx-auto">
       {!modalIsOpen ? (
         <>
           <FilterUsers
+            handleUserChange={handleUserChange}
             handleFilterChange={handleFilterChange}
             handleOpenModal={handleOpenModal}
           />

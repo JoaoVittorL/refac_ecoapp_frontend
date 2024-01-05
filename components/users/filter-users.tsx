@@ -21,7 +21,7 @@ const FilterUsers = ({
 }: PropsFormFilter) => {
   return (
     <div className="flex flex-col justify-end gap-4 md:flex-row mb-10">
-      <Input onChange={(event) => handleUserChange(event.target.value)}/>
+      <Input onChange={(event) => handleUserChange(event.target.value)} placeholder="Pesquise o usuário..."/>
       <Select onValueChange={(value) => handleFilterChange(value)}>
         <SelectTrigger className="md:w-[180px] w-full">
           <SelectValue placeholder="Tipo" />

@@ -68,21 +68,30 @@ const TableUsers: React.FC<PaginationProps> = ({
   const handleClickPage = (id: string) => {
     router.push(`users/${id}`);
   };
-  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
-      if (typeof query === 'string' && query.length > 2) {
-          setSearchQuery(query);
-          const filteredData = data.filter((user) =>
-            user.nome.toLowerCase().includes(query.toLowerCase())
-          );
-          setFilteredUsers(filteredData);
-        }
-    }
-  }
+
 
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
 
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+    if (typeof query === 'string') {
+      setSearchQuery(query);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const filteredData = data.filter((user) =>
+        user.nome.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filteredData);
+    } else {
+      setFilteredUsers(data);
+    }
+  }, [searchQuery, data]);
+
+  
   return (
     <div className="max-w-[1440px] w-full mx-auto">
       {!modalIsOpen ? (

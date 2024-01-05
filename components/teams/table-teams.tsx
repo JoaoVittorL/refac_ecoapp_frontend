@@ -9,7 +9,7 @@ import {
   TableHeader,
 } from "../ui/table";
 import { FaPen } from "react-icons/fa";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import FilterUsers from "./filter-teams";
 import CreateUser from "./create-teams";
 import { useRouter } from "next/navigation";
@@ -26,22 +26,13 @@ const TableUsers: React.FC<PaginationProps> = ({
 }) => {
   const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const headers = [
-    "Equipe ",
-    "Tipo",
-    "Lider",
-    "Contrato",
-    "Coordenador",
-    "Supervisor",
-    "Ações",
-  ];
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 14;
 
   const [filteredUsers, setFilteredUsers] = useState<TeamsType[]>(data);
   const offset = currentPage * usersPerPage;
   const currentPageData = filteredUsers.slice(offset, offset + usersPerPage);
-
+  const [searchQuery, setSearchQuery] = useState("");
   const pageCount = Math.ceil(data.length / usersPerPage);
 
   const handlePageClick = (pageNumber: number) => {
@@ -63,12 +54,33 @@ const TableUsers: React.FC<PaginationProps> = ({
   const handleOpenModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+    if (typeof query === "string") {
+      setSearchQuery(query);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const filteredData = data.filter((user) =>
+        user.equipe.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      console.log(filteredData)
+      setFilteredUsers(filteredData);
+    } else {
+      setFilteredUsers(data);
+    }
+  }, [searchQuery, data]);
 
   return (
     <div className="max-w-[1440px] w-full mx-auto">
       {!modalIsOpen ? (
         <>
           <FilterUsers
+            handleUserChange={handleUserChange}
+
+
+
             handleFilterChange={handleFilterChange}
             handleOpenModal={handleOpenModal}
           />

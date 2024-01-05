@@ -153,7 +153,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
           <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
             <FormField
               control={form.control}
-              name="supervisor"
+              name="supervisor_id"
               render={({ field }) => (
                 <Select
                   value={field.value}
@@ -161,7 +161,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 >
                   <SelectTrigger
                     className="md:w-[50%] w-full"
-                    name="supervisor"
+                    name="supervisor_id"
                   >
                     <SelectValue placeholder="Supervisor" />
                   </SelectTrigger>
@@ -176,7 +176,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
             />
             <FormField
               control={form.control}
-              name="coordenador"
+              name="coordenador_id"
               render={({ field }) => (
                 <Select
                   value={field.value}
@@ -184,7 +184,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                 >
                   <SelectTrigger
                     className="md:w-[50%] w-full"
-                    name="coordenador"
+                    name="coordenador_id"
                   >
                     <SelectValue placeholder="Coordenador" />
                   </SelectTrigger>

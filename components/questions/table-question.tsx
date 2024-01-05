@@ -9,7 +9,7 @@ import {
   TableHeader,
 } from "../ui/table";
 import { FaPen } from "react-icons/fa";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import FilterUsers from "./filter-question";
 import CreateUser from "./create-question";
 interface PaginationProps {
@@ -33,7 +33,7 @@ const TableUsers: React.FC<PaginationProps> = ({
   const currentPageData = filteredUsers.slice(offset, offset + usersPerPage);
 
   const pageCount = Math.ceil(data.length / usersPerPage);
-
+  const [searchQuery, setSearchQuery] = useState('');
   const handlePageClick = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -95,11 +95,30 @@ const TableUsers: React.FC<PaginationProps> = ({
     });
   }
 
+  const handleUserChange = (query: string | ChangeEvent<HTMLInputElement>) => {
+    if (typeof query === 'string') {
+      setSearchQuery(query);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const filteredData = data.filter((user) =>
+        user.pergunta_resposta.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filteredData);
+    } else {
+      setFilteredUsers(data);
+    }
+  }, [searchQuery, data]);
+
+
   return (
     <div className="max-w-[1440px] w-full mx-auto">
       {!modalIsOpen ? (
         <>
           <FilterUsers
+            handleUserChange={handleUserChange}
             handleFilterChange={handleFilterChange}
             handleOpenModal={handleOpenModal}
             isDelete={isDelete}
