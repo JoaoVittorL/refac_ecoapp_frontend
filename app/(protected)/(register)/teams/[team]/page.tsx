@@ -1,4 +1,4 @@
-import UpdateTeam from "@/components/teams/update-team";
+import UpdateTeam from "@/components/teams/update";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 
@@ -15,9 +15,8 @@ async function getInfoAboutTeam(id: string) {
 }
 
 const turnPageId = async ({ params }: { params: { team: string } }) => {
-  const token = await currentToken();
   const response = await getInfoAboutTeam(params.team);
-  return <UpdateTeam data={response} token={token} id={params.team}/>;
+  return <UpdateTeam data={response}  id={params.team}/>;
 };
 
 export default turnPageId;

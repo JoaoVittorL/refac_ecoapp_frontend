@@ -27,13 +27,11 @@ import {
 } from "../ui/select";
 import { revalidatePath } from "next/cache";
 interface CreateUserProps {
-  token: string | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const CreateUser: React.FC<CreateUserProps> = ({
-  token,
   isOpen,
   onClose,
 }: CreateUserProps) => {
@@ -61,7 +59,6 @@ const CreateUser: React.FC<CreateUserProps> = ({
         pergunta_resposta: data.pergunta,
         tipo: data.tipo,
         categoria: data.categoria,
-        token: token,
       }),
     });
 

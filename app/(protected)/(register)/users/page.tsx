@@ -1,12 +1,12 @@
-import FormUsers from "@/components/users/table-users";
+import FormUsers from "@/components/users/content";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
-
 import { Metadata } from "next";
 
-export const metadata: Metadata= {
+export const metadata: Metadata = {
   title: "Eco Elétrica - Usuários",
-  description: "Página de usuários direcionada a consultar e cadastrar novas usuários.",
+  description:
+    "Página de usuários direcionada a consultar e cadastrar novas usuários.",
 };
 
 const getUsers = async () =>
@@ -15,8 +15,8 @@ const getUsers = async () =>
   });
 
 const usersPage = async () => {
-  const users = await getUsers();
-  const token : string | null = await currentToken();
-  return <FormUsers data={users} token={token} />;
+  const token = await currentToken();
+  const data = await getUsers();
+  return <FormUsers data={data} token={token} />;
 };
 export default usersPage;

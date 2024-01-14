@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { VehicleSchema } from "@/schemas";
+import { ServiceSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -43,41 +43,40 @@ const CreateUser: React.FC<CreateUserProps> = ({
   const [sucess, setSucess] = useState<string | undefined>("");
 
   const [isPeding, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof VehicleSchema>>({
-    resolver: zodResolver(VehicleSchema),
+  const form = useForm<z.infer<typeof ServiceSchema>>({
+    resolver: zodResolver(ServiceSchema),
     defaultValues: {
-      placa: "",
-      equipe: "",
-      tipo: "",
+      codigo: "",
+      unidade: "",
+      descricao: "",
     },
   });
-  const onSubmit = async (data: z.infer<typeof VehicleSchema>) => {
+  const onSubmit = async (values: z.infer<typeof ServiceSchema>) => {
     setError("");
     setSucess("");
-    const response = await fetch("/api/vehicles", {
+    const response = await fetch("/api/activies", {
       method: "POST",
       body: JSON.stringify({
-        placa: data.placa,
-        equipe_id: data.equipe,
-        tipo: data.tipo,
+        codigo: values.codigo,
+        descricao: values.descricao,
+        unidade: values.unidade,
         token: token,
       }),
     });
-
     if (response.status == 200 || response.status == 201) {
       startTransition(() => {
-        setSucess("Veículo criado com sucesso!");
+        setSucess("Serviço criado com sucesso!");
         form.reset();
       });
     } else {
       startTransition(() => {
-        setError("Erro ao criar veículo!");
+        setError("Erro ao criar serviço!");
       });
     }
   };
 
   return (
-    <Modal title="Criar veículo" isOpen={isOpen} onClose={handleOpenModal}>
+    <Modal title="Criar serviço" isOpen={isOpen} onClose={handleOpenModal}>
       <FormError message={error} />
       <FormSucess message={sucess} />
       <Form {...form}>
@@ -85,62 +84,60 @@ const CreateUser: React.FC<CreateUserProps> = ({
           <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
             <FormField
               control={form.control}
-              name={"placa"}
+              name={"codigo"}
               render={({ field }) => (
                 <FormItem className="md:w-[50%] w-full">
-                  <FormLabel>Placa</FormLabel>
+                  <FormLabel>Código</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPeding}
                       {...field}
                       type="text"
-                      placeholder="Digite a placa"
+                      placeholder="Digite o código"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
+              control={form.control}
+              name="unidade"
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <SelectTrigger className="md:w-[50%] w-full" name="unidade">
+                    <SelectValue placeholder="Unidade" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="M">M</SelectItem>
+                    <SelectItem value="N">N</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+          <FormField
             control={form.control}
-            name={"equipe"}
+            name={"descricao"}
             render={({ field }) => (
-              <FormItem className="md:w-[50%] w-full">
-                <FormLabel>Equipe</FormLabel>
+              <FormItem>
+                <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isPeding}
                     {...field}
                     type="text"
-                    placeholder="Digite a equipe"
+                    placeholder="Digite a descrição"
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          </div>
-          <FormField
-              control={form.control}
-              name="tipo"
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger name="tipo">
-                    <SelectValue placeholder="Tipo" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="PESADO">PESADO</SelectItem>
-                    <SelectItem value="APOIO">APOIO</SelectItem>
-                    <SelectItem value="LEVE">LEVE</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-          
           <Button disabled={isPeding} type="submit" className="w-full">
             Criar
           </Button>

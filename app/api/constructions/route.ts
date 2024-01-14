@@ -1,24 +1,15 @@
 import { api } from "@/data/api";
+import { currentToken } from "@/lib/auth";
 import { ConstructionType } from "@/types/rotes";
 import { NextResponse } from "next/server";
-
-
-
-
 export async function POST(request: Request) {
   try {
     const body: ConstructionType = await request.json();
-    const response = await api.post(`/obras}`, {
-      codigo: body.projeto,
-      descricao: body.descricao,
-      cidade: body.cidade,
-      utd: body.utd,
-      carteira: body.carteira,
-      status: true,
-    }) 
-
+    console.log(body)
+    const response = await api.post("/obras", [body]) 
+    console.log(response.data)
     if (response.status == 200 || response.status == 201) {
-      return NextResponse.json({ message: "Veículo criado com sucesso" });
+      return NextResponse.json({ message: "Obras inseridas no GPECO" });
     }
   } catch (error) {
     return NextResponse.json({ message: "Erro na busca de dados!" });
@@ -26,10 +17,12 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const token = await currentToken()
+  console.log(token)
   try {
     const body: ConstructionType = await request.json()
-
-    const response = await api.post(`/obras/${body.id}}`, {
+    console.log(body)
+    const response = await api.post(`/obras/${body.id}`, {
       projeto: body.projeto,
       descricao: body.descricao,
       cidade: body.cidade,
@@ -38,7 +31,7 @@ export async function PUT(request: Request) {
       status: body.status,
     })
 
-    
+    console.log(response)
     if (response.status == 200 || response.status == 201) {
       return NextResponse.json({ message: "Veículo criado com sucesso" });
     }

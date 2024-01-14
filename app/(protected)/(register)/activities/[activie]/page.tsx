@@ -1,4 +1,4 @@
-import UpdateActivie from "@/components/activies/update-activies";
+import UpdateActivie from "@/components/activies/update";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 

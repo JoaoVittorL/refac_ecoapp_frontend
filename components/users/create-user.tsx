@@ -54,30 +54,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
     },
   });
   const onSubmit = async (data: z.infer<typeof createUserSchema>) => {
-    setError("");
-    setSucess("");
-    const response = await fetch("/api/users", {
-      method: "POST",
-      body: JSON.stringify({
-        nome: data.name,
-        email: data.email,
-        senha: data.password,
-        cpf: data.cpf,
-        tipo: data.role,
-        token: token,
-      }),
-    });
-     console.log(response)
-    if (response.status == 200 || response.status == 201) {
-      startTransition(() => {
-        setSucess("Usuário criado com sucesso!");
-        form.reset()
-      });
-    } else {
-      startTransition(() => {
-        setError("O usuário já existe!");
-      });
-    }
+    alert("OLA");
   };
 
   return (
@@ -88,7 +65,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name={"name"}
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nome</FormLabel>
@@ -97,7 +74,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                     disabled={isPeding}
                     {...field}
                     type="nome"
-                    placeholder="Nome completo"
+                    placeholder="Digite seu nome completo"
                   />
                 </FormControl>
                 <FormMessage />
@@ -125,9 +102,9 @@ const CreateUser: React.FC<CreateUserProps> = ({
             />
             <FormField
               control={form.control}
-              name={"cpf"}
+              name="cpf"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="md:w-[50%] w-full">
                   <FormLabel>CPF</FormLabel>
                   <FormControl>
                     <Input
@@ -135,7 +112,7 @@ const CreateUser: React.FC<CreateUserProps> = ({
                       {...field}
                       maxLength={11}
                       type="cpf"
-                      placeholder="Somente números"
+                      placeholder="Somente números..."
                     />
                   </FormControl>
                   <FormMessage />

@@ -1,4 +1,4 @@
-import FormService from "@/components/activies/table-activies";
+import FormService from "@/components/activies/content";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 import { Metadata } from "next";

@@ -1,6 +1,5 @@
-import FormConstructions from "@/components/constructions/table-constructions";
+import FormConstructions from "@/components/constructions/content";
 import { api } from "@/data/api";
-import { currentToken } from "@/lib/auth";
 import { Metadata } from "next";
 
 export const metadata: Metadata= {
@@ -15,8 +14,6 @@ const getConstructions = async () =>
 
 const constructionsPage = async () => {
   const constructions = await getConstructions();
-  const token: string | null = await currentToken();
-
-  return <FormConstructions data={constructions} token={token} />;
+  return <FormConstructions data={constructions} />;
 };
 export default constructionsPage;

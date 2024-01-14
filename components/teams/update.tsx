@@ -28,11 +28,10 @@ import BackTable from "../back-table";
 
 interface UpdateTeamProps {
   data: TeamsType;
-  token: string | null;
   id: string;
 }
 
-const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
+const UpdateTeam = ({ data, id }: UpdateTeamProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [sucess, setSucess] = useState<string | undefined>("");
   const [isPeding, startTransition] = useTransition();
@@ -70,9 +69,9 @@ const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
             tipo: data.tipo,
             status: data.status,
             contrato: data.status,
-            token: token,
         }),
       });
+      console.log(response)
       if (response.status == 200 || response.status == 201) {
         startTransition(() => {
           setSucess("Serviço atualizado com sucesso");

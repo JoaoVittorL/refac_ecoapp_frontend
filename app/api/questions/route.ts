@@ -5,15 +5,10 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body: QuestionType = await request.json();
-    const response = await api.post("/perguntas", {
-       pergunta_resposta: body.pergunta_resposta,
-       categoria: body.categoria,
-       tipo: body.tipo,
-     })  
+    const response = await api.post("/perguntas", body)  
      if (response.status == 200 || response.status == 201) {
       return NextResponse.json({ message: "Pergunta criada com sucesso" });
      }
-
   } catch (error) {
     return NextResponse.json({ message: "Erro na busca de dados!" });
   }

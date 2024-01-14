@@ -28,11 +28,10 @@ import BackTable from "../back-table";
 
 interface UpdateTeamProps {
   data: VehicleType;
-  token: string | null;
   id: string;
 }
 
-const UpdateTeam = ({ data, token, id }: UpdateTeamProps) => {
+const UpdateTeam = ({ data, id }: UpdateTeamProps) => {
   const [placa, setPlaca] = useState(data.placa);
   const [equipe, setEquipe] = useState(data.equipe_id);
   const [error, setError] = useState<string | undefined>("");

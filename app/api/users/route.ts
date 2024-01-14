@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       cpf: body.cpf,
       tipo: body.tipo,
     };
-    const response = await fetch("https://touching-grizzly-logical.ngrok-free.app/colaboradores", {
+    const response = await fetch("http://localhost:3333/colaboradores", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,6 @@ export async function PUT(request: Request) {
       tipo: body.tipo,
       status: body.status,
     };
-    console.log(user)
   } catch (error) {
     return NextResponse.json({ message: "Erro na busca de dados!" });
   }

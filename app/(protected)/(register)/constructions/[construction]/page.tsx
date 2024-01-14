@@ -1,4 +1,4 @@
-import UpdateConstruction from "@/components/constructions/update-construction";
+import UpdateConstruction from "@/components/constructions/update";
 import { api } from "@/data/api";
 import { currentToken } from "@/lib/auth";
 

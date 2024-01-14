@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSucess } from "../form-sucess";
 import {
@@ -29,15 +28,8 @@ import BackTable from "../back-table";
 interface UpdateActiviesProps {
   data: ConstructionType;
   id: string;
-  token: string | null;
 }
-// projeto: 'B-1000187',
-//     descricao: 'UB-CCOL-POV-VARZEA DE BAIXO-CENTRO VARZE',
-//     status: 'PROGRAMADA',
-//     carteira: 'setembro/2023',
-//     cidade: 'RIO DE CONTAS',
-//     utd: 'BRUMADO'
-const UpdateActivie = ({ data, id,token }: UpdateActiviesProps) => {
+const UpdateActivie = ({ data, id }: UpdateActiviesProps) => {
   const [projeto, setProjeto] = useState(data.projeto);
 
 
@@ -58,7 +50,7 @@ const UpdateActivie = ({ data, id,token }: UpdateActiviesProps) => {
         cidade: cidade,
         utd: utd,
         carteira: carteira,
-        status: status,
+        status: 'true',
     },
   });
   useEffect(() => {
@@ -76,24 +68,23 @@ const UpdateActivie = ({ data, id,token }: UpdateActiviesProps) => {
     setError("")
     const response = await fetch("/api/constructions", {
         method: "PUT",
-        body: JSON.stringify({
-           id: id,
+            body: JSON.stringify({
+            id: id,
             projeto: values.projeto,
             descricao: values.descricao,
             cidade: values.cidade,
             utd: values.utd,
             carteira: values.carteira,
             status: values.status,
-            token: token,
         }),
       });
       if (response.status == 200 || response.status == 201) {
         startTransition(() => {
-          setSucess("Serviço atualizado com sucesso");
+          setSucess("Obra atualizada com sucesso");
         });
       }else{
         startTransition(() => {
-          setError("Erro ao atualizar serviço");
+          setError("Erro ao atualizar obra");
         });
       }
   };

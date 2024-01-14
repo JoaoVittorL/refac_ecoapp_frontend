@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { ServiceSchema } from "@/schemas";
+import { VehicleSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -26,13 +26,11 @@ import {
   SelectValue,
 } from "../ui/select";
 interface CreateUserProps {
-  token: string | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const CreateUser: React.FC<CreateUserProps> = ({
-  token,
   isOpen,
   onClose,
 }: CreateUserProps) => {
@@ -43,41 +41,42 @@ const CreateUser: React.FC<CreateUserProps> = ({
   const [sucess, setSucess] = useState<string | undefined>("");
 
   const [isPeding, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof ServiceSchema>>({
-    resolver: zodResolver(ServiceSchema),
+
+  
+  const form = useForm<z.infer<typeof VehicleSchema>>({
+    resolver: zodResolver(VehicleSchema),
     defaultValues: {
-      codigo: "",
-      unidade: "",
-      descricao: "",
+      placa: "",
+      equipe: "",
+      tipo: "",
     },
   });
-  const onSubmit = async (values: z.infer<typeof ServiceSchema>) => {
+  const onSubmit = async (data: z.infer<typeof VehicleSchema>) => {
     setError("");
     setSucess("");
-    const response = await fetch("/api/activies", {
+    const response = await fetch("/api/vehicles", {
       method: "POST",
       body: JSON.stringify({
-        codigo: values.codigo,
-        descricao: values.descricao,
-        unidade: values.unidade,
-        token: token,
+        placa: data.placa,
+        equipe_id: data.equipe,
+        tipo: data.tipo,
       }),
     });
 
     if (response.status == 200 || response.status == 201) {
       startTransition(() => {
-        setSucess("Pergunta criada com sucesso!");
+        setSucess("Veículo criado com sucesso!");
         form.reset();
       });
     } else {
       startTransition(() => {
-        setError("Erro ao criar pergunta!");
+        setError("Erro ao criar veículo!");
       });
     }
   };
 
   return (
-    <Modal title="Criar obra" isOpen={isOpen} onClose={handleOpenModal}>
+    <Modal title="Criar veículo" isOpen={isOpen} onClose={handleOpenModal}>
       <FormError message={error} />
       <FormSucess message={sucess} />
       <Form {...form}>
@@ -85,60 +84,62 @@ const CreateUser: React.FC<CreateUserProps> = ({
           <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
             <FormField
               control={form.control}
-              name={"codigo"}
+              name={"placa"}
               render={({ field }) => (
                 <FormItem className="md:w-[50%] w-full">
-                  <FormLabel>Código</FormLabel>
+                  <FormLabel>Placa</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPeding}
                       {...field}
                       type="text"
-                      placeholder="Digite o código"
+                      placeholder="Digite a placa"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
-              control={form.control}
-              name="unidade"
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="md:w-[50%] w-full" name="unidade">
-                    <SelectValue placeholder="Unidade" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="M">M</SelectItem>
-                    <SelectItem value="N">N</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-          </div>
-          <FormField
             control={form.control}
-            name={"descricao"}
+            name={"equipe"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Descrição</FormLabel>
+              <FormItem className="md:w-[50%] w-full">
+                <FormLabel>Equipe</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isPeding}
                     {...field}
                     type="text"
-                    placeholder="Digite a descrição"
+                    placeholder="Digite a equipe"
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
+          </div>
+          <FormField
+              control={form.control}
+              name="tipo"
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <SelectTrigger name="tipo">
+                    <SelectValue placeholder="Tipo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PESADO">PESADO</SelectItem>
+                    <SelectItem value="APOIO">APOIO</SelectItem>
+                    <SelectItem value="LEVE">LEVE</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          
           <Button disabled={isPeding} type="submit" className="w-full">
             Criar
           </Button>

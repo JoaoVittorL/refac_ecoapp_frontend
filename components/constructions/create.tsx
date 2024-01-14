@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { TeamsSchema } from "@/schemas";
+import { ConstructionSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -25,15 +25,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { revalidatePath } from "next/cache";
 interface CreateUserProps {
-  token: string | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const CreateUser: React.FC<CreateUserProps> = ({
-  token,
   isOpen,
   onClose,
 }: CreateUserProps) => {
@@ -44,64 +41,80 @@ const CreateUser: React.FC<CreateUserProps> = ({
   const [sucess, setSucess] = useState<string | undefined>("");
 
   const [isPeding, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof TeamsSchema>>({
-    resolver: zodResolver(TeamsSchema),
+  const form = useForm<z.infer<typeof ConstructionSchema>>({
+    resolver: zodResolver(ConstructionSchema),
     defaultValues: {
-      equipe: "",
-      tipo: "",
-      lider: "",
-      supervisor_id: "",
-      coordenador_id: "",
-      contrato: "",
+      projeto: "",
+      descricao: "",
+      cidade: "",
+      utd: "",
+      carteira: "",
+      status: "",
     },
   });
-  const onSubmit = async (data: z.infer<typeof TeamsSchema>) => {
+  const onSubmit = async (data: z.infer<typeof ConstructionSchema>) => {
     setError("");
     setSucess("");
-    
     const response = await fetch("/api/constructions", {
       method: "POST",
       body: JSON.stringify({
-        equipe: data.equipe,
-        tipo: data.tipo,
-        lider_id: data.lider,
-        supervisor_id: data.supervisor_id,
-        coordenador_id: data.coordenador_id,
-        contrato: data.contrato,
-        token: token,
+        projeto: data.projeto,
+        descricao: data.descricao,
+        cidade: data.cidade,
+        utd: data.utd,
+        carteira: data.carteira,
+        status: true,
       }),
     });
-
+    
     if (response.status == 200 || response.status == 201) {
       startTransition(() => {
-        setSucess("Pergunta criada com sucesso!");
+        setSucess("Obra criada com sucesso!");
         form.reset();
       });
     } else {
       startTransition(() => {
-        setError("Erro ao criar pergunta!");
+        setError("Erro ao criar obra!");
       });
     }
   };
 
   return (
-    <Modal title="Criar equipe" isOpen={isOpen} onClose={handleOpenModal}>
+    <Modal title="Criar obra" isOpen={isOpen} onClose={handleOpenModal}>
       <FormError message={error} />
       <FormSucess message={sucess} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name={"equipe"}
+            name={"projeto"}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Equipe</FormLabel>
+                <FormLabel>Projeto</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isPeding}
                     {...field}
-                    type="equipe"
-                    placeholder="Digite o equipe"
+                    type="projeto"
+                    placeholder="Digite o projeto"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"descricao"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Descrição</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPeding}
+                    {...field}
+                    type="descricao"
+                    placeholder="Digite a descrição"
                   />
                 </FormControl>
                 <FormMessage />
@@ -112,39 +125,34 @@ const CreateUser: React.FC<CreateUserProps> = ({
           <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
             <FormField
               control={form.control}
-              name="tipo"
+              name="cidade"
               render={({ field }) => (
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="tipo">
-                    <SelectValue placeholder="Tipo" />
+                  <SelectTrigger className="md:w-[50%] w-full" name="cidade">
+                    <SelectValue placeholder="Cidade" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="LV">LV</SelectItem>
-                    <SelectItem value="LM">LM</SelectItem>
-                    <SelectItem value="APOIO">APOIO</SelectItem>
+                    <SelectItem value="VITORIA DA CONQUISTA">VITORIA DA CONQUISTA</SelectItem>
                   </SelectContent>
                 </Select>
               )}
             />
             <FormField
               control={form.control}
-              name="lider"
+              name="utd"
               render={({ field }) => (
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger className="md:w-[50%] w-full" name="lider">
-                    <SelectValue placeholder="Lider" />
+                  <SelectTrigger className="md:w-[50%] w-full" name="utd">
+                    <SelectValue placeholder="UTD" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="CARLOS">CARLOS</SelectItem>
-                    <SelectItem value="PEDRO">PEDRO</SelectItem>
-                    <SelectItem value="LUCAS">LUCAS</SelectItem>
-                    <SelectItem value="FERNANDO">FERNANDO</SelectItem>
+                    <SelectItem value="ITABERABA">ITABERABA</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -153,66 +161,34 @@ const CreateUser: React.FC<CreateUserProps> = ({
           <div className="flex flex-col justify-between gap-4 md:flex-row items-end">
             <FormField
               control={form.control}
-              name="supervisor_id"
+              name="carteira"
               render={({ field }) => (
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger
-                    className="md:w-[50%] w-full"
-                    name="supervisor_id"
-                  >
-                    <SelectValue placeholder="Supervisor" />
+                  <SelectTrigger className="md:w-[50%] w-full" name="carteira">
+                    <SelectValue placeholder="Carteira" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="CARLOS">CARLOS</SelectItem>
-                    <SelectItem value="PEDRO">PEDRO</SelectItem>
-                    <SelectItem value="LUCAS">LUCAS</SelectItem>
-                    <SelectItem value="FERNANDO">FERNANDO</SelectItem>
+                    <SelectItem value="SETEMBRO/2022">SETEMBRO/2022</SelectItem>
                   </SelectContent>
                 </Select>
               )}
             />
             <FormField
               control={form.control}
-              name="coordenador_id"
+              name="status"
               render={({ field }) => (
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
-                  <SelectTrigger
-                    className="md:w-[50%] w-full"
-                    name="coordenador_id"
-                  >
-                    <SelectValue placeholder="Coordenador" />
+                  <SelectTrigger className="md:w-[50%] w-full" name="status">
+                    <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="CARLOS">CARLOS</SelectItem>
-                    <SelectItem value="PEDRO">PEDRO</SelectItem>
-                    <SelectItem value="LUCAS">LUCAS</SelectItem>
-                    <SelectItem value="FERNANDO">FERNANDO</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="contrato"
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="md:w-[50%] w-full" name="contrato">
-                    <SelectValue placeholder="Contrato" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="CARLOS">CARLOS</SelectItem>
-                    <SelectItem value="PEDRO">PEDRO</SelectItem>
-                    <SelectItem value="LUCAS">LUCAS</SelectItem>
-                    <SelectItem value="FERNANDO">FERNANDO</SelectItem>
+                    <SelectItem value="PROGRAMADA">PROGRAMADA</SelectItem>
                   </SelectContent>
                 </Select>
               )}

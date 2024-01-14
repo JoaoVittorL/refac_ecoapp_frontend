@@ -1,6 +1,5 @@
-import FormVehicles from "@/components/vehicles/table-vehicle";
+import FormVehicles from "@/components/vehicles/content";
 import { api } from "@/data/api";
-import { currentToken } from "@/lib/auth";
 
 import { Metadata } from "next";
 
@@ -17,8 +16,7 @@ const getVehicles = async () =>
 
 const servicePage = async () => {
   const vehicles = await getVehicles();
-  const token: string | null = await currentToken();
 
-  return <FormVehicles data={vehicles} token={token} />;
+  return <FormVehicles data={vehicles} />;
 };
 export default servicePage;

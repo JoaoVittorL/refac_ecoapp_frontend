@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSucess } from "../form-sucess";
 import {
@@ -25,7 +24,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ServiceType } from "@/types/rotes";
 import BackTable from "../back-table";
-import { Item } from "@radix-ui/react-select";
 
 interface UpdateActiviesProps {
   data: ServiceType;
