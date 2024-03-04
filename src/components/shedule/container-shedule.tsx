@@ -46,7 +46,7 @@ const Container = ({ data }: PaginationProps) => {
   };
 
   return (
-    <div className="flex flex-col w-full mx-auto justify-center">
+    <div className="flex flex-col w-full mx-auto justify-center absolute">
       <FilterShedule
         handleFilterChange={handleFilterChange}
         handleFilterChangeFinal={handleFilterChangeFinal}
@@ -54,7 +54,7 @@ const Container = ({ data }: PaginationProps) => {
       {dataFiltrada &&
         Object.keys(dataFiltrada).map((equipeId) => (
           <div key={equipeId}>
-            <h1 className="flex justify-center text-bold mb-4">{equipeId}</h1>
+            <h1 className="flex justify-center text-bold w-full mb-4">{equipeId}</h1>
             <CarouselSize key={equipeId} data={dataFiltrada[equipeId]} />
           </div>
         ))}

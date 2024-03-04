@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 interface Props {
   data: ConstructionType[];
 }
-const Form = ({ data}: Props) => {
+const Form = ({ data }: Props) => {
   var options = ["PROGRAMADA", "EM EXECUÇÃO"];
   const columns = [
     { label: "Projeto", key: "projeto" },
@@ -72,7 +72,7 @@ const Form = ({ data}: Props) => {
   };
 
   return (
-    <div className="max-w-[1440px] w-full mx-auto p-4">
+    <div className="max-w-[1440px] w-full mx-auto p-4 absolute">
       {!modalIsOpen ? (
         <>
           <FilterInputSelect
@@ -94,10 +94,7 @@ const Form = ({ data}: Props) => {
           />
         </>
       ) : (
-        <CreateConstructions
-          isOpen={modalIsOpen}
-          onClose={handleOpenModal}
-        />
+        <CreateConstructions isOpen={modalIsOpen} onClose={handleOpenModal} />
       )}
     </div>
   );

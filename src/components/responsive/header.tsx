@@ -29,8 +29,8 @@ const Header = () => {
           >
             <Image
               src={Logo}
-              width={24}
-              height={24}
+              width={32}
+              height={32}
               alt="Logo da empresa ecoelétrica"
             />
             <span className="font-bold text-xl flex ">Ecoelétrica</span>

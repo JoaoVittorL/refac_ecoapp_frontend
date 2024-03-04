@@ -22,7 +22,7 @@ type TableProps = {
 
 const Table = ({ data, columns, handleClickId }: TableProps) => {
   return (
-    <LocalTable>
+    <LocalTable className="w-full">
       <TableHeader>
         <TableRow className="text-left">
           {columns.map((column, index) => (
@@ -31,17 +31,18 @@ const Table = ({ data, columns, handleClickId }: TableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item, rowIndex) => (
-          <TableRow
-            className="cursor-pointer"
-            key={rowIndex}
-            onClick={() => handleClickId(item.id)}
-          >
-            {columns.map((column, colIndex) => (
-              <TableCell key={colIndex}>{item[column.key]}</TableCell>
-            ))}
-          </TableRow>
-        ))}
+        {data &&
+          data.map((item, rowIndex) => (
+            <TableRow
+              className="cursor-pointer"
+              key={rowIndex}
+              onClick={() => handleClickId(item.id)}
+            >
+              {columns.map((column, colIndex) => (
+                <TableCell key={colIndex}>{item[column.key]}</TableCell>
+              ))}
+            </TableRow>
+          ))}
       </TableBody>
     </LocalTable>
   );

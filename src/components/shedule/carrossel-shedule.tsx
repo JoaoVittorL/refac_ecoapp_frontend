@@ -25,14 +25,13 @@ export function CarouselSize({ data }: PaginationProps) {
   if (!isClient) {
     return null;
   }
-  console.log(data);
   return (
     <Carousel
       opts={{
         align: "center",
         visible: 20,
       }}
-      className="w-full max-w-[1440px] mx-auto"
+      className="max-w-[1440px] w-full mx-auto"
     >
       <CarouselContent>
         {data.map((item, index) => (

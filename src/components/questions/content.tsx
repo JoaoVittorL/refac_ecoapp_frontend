@@ -70,7 +70,7 @@ const Form = ({ data, token }: Props) => {
   };
 
   return (
-    <div className="max-w-[1440px] w-full mx-auto p-4">
+    <div className="max-w-[1440px] w-full mx-auto p-4 absolute">
       {!modalIsOpen ? (
         <>
           <FilterInputSelect
