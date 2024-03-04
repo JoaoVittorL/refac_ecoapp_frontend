@@ -1,6 +1,5 @@
 import UpdateVehicle from "@/src/components/vehicles/update";
 import { api } from "@/src/data/api";
-
 async function getData(id: string) {
   const response = await api(`/veiculos/${id}`);
   const data = await response.json();

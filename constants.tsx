@@ -14,8 +14,8 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     submenu: true,
     subMenuItems: [
       { title: "Programação", path: "/shedule" },
-      { title: "Obra", path: "/" },
-      { title: "Serviços", path: "/" },
+      { title: "Obra", path: "" },
+      { title: "Serviços", path: "" },
     ],
   },
   {
@@ -32,13 +32,12 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     ],
   },
   {
-    title: "Conta",
+    title: "Gerenciar",
     path: "/settings",
     icon: <Icon icon="lucide:circle-user" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Conta", path: "/profile" },
-      { title: "Sair", path: "/" },
+      { title: "Perfil", path: "/profile" },
     ],
   },
 ];

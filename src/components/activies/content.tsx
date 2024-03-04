@@ -12,9 +12,8 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   data: ServiceType[];
-  token: string | null;
 }
-const Form = ({ data, token }: Props) => {
+const Form = ({ data }: Props) => {
   var options = ["ADM", "CAMPO", "SUPERVISÃO"];
   const columns = [
     { label: "Código", key: "codigo" },
@@ -92,11 +91,7 @@ const Form = ({ data, token }: Props) => {
           />
         </>
       ) : (
-        <CreateActivies
-          isOpen={modalIsOpen}
-          onClose={handleOpenModal}
-          token={token}
-        />
+        <CreateActivies isOpen={modalIsOpen} onClose={handleOpenModal} />
       )}
     </div>
   );

@@ -1,12 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Eco Elétrica - Indicadores",
-    description: "Página de turnos direcionada a consultar e cadastrar novos turnos",
-  };
-  
+  title: "Home",
+};
+
 export default async function Home() {
-    return (
-        <div className="font-bold">HOME</div>
-    );
+  return <div className="font-bold">Indicadores</div>;
 }

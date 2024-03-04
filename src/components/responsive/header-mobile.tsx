@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { SIDENAV_ITEMS } from '@/constants';
-import { SideNavItem } from '@/src/types/rotes';
-import { Icon } from '@iconify/react';
-import { motion, useCycle } from 'framer-motion';
+import { SIDENAV_ITEMS } from "@/constants";
+import { SideNavItem } from "@/src/types/rotes";
+import { Icon } from "@iconify/react";
+import { motion, useCycle } from "framer-motion";
 
 type MenuItemWithSubMenuProps = {
   item: SideNavItem;
@@ -19,15 +19,15 @@ const sidebar = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 100% 0)`,
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 20,
       restDelta: 2,
     },
   }),
   closed: {
-    clipPath: 'circle(0px at 100% 0)',
+    clipPath: "circle(0px at 100% 0)",
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 400,
       damping: 40,
     },
@@ -43,15 +43,15 @@ const HeaderMobile = () => {
   return (
     <motion.nav
       initial={false}
-      animate={isOpen ? 'open' : 'closed'}
+      animate={isOpen ? "open" : "closed"}
       custom={height}
-      className={`fixed inset-0 z-50 w-full md:hidden ${
-        isOpen ? '' : 'pointer-events-none'
+      className={`fixed dart:red inset-0 z-50 w-full md:hidden ${
+        isOpen ? "" : "pointer-events-none"
       }`}
       ref={containerRef}
     >
       <motion.div
-        className="absolute inset-0 right-0 w-full bg-white"
+        className="absolute inset-0 right-0 w-full bg-white dark:bg-blue-dark-900"
         variants={sidebar}
       />
       <motion.ul
@@ -59,7 +59,7 @@ const HeaderMobile = () => {
         className="absolute grid w-full gap-3 px-10 py-16"
       >
         {SIDENAV_ITEMS.map((item, idx) => {
-          const isLastItem = idx === SIDENAV_ITEMS.length - 1; // Check if it's the last item
+          const isLastItem = idx === SIDENAV_ITEMS.length - 1;
 
           return (
             <div key={idx}>
@@ -71,7 +71,7 @@ const HeaderMobile = () => {
                     href={item.path}
                     onClick={() => toggleOpen()}
                     className={`flex w-full text-2xl ${
-                      item.path === pathname ? 'font-bold' : ''
+                      item.path === pathname ? "font-bold" : ""
                     }`}
                   >
                     {item.title}
@@ -80,7 +80,7 @@ const HeaderMobile = () => {
               )}
 
               {!isLastItem && (
-                <MenuItem className="my-3 h-px w-full bg-gray-300" />
+                <MenuItem className="my-3 h-px w-full bg-green-950" />
               )}
             </div>
           );
@@ -96,13 +96,13 @@ export default HeaderMobile;
 const MenuToggle = ({ toggle }: { toggle: any }) => (
   <button
     onClick={toggle}
-    className="pointer-events-auto absolute right-4 top-[14px] z-30"
+    className="pointer-events-auto absolute right-4 top-[14px] z-30 dark:text-white"
   >
     <svg width="23" height="23" viewBox="0 0 23 23">
       <Path
         variants={{
-          closed: { d: 'M 2 2.5 L 20 2.5' },
-          open: { d: 'M 3 16.5 L 17 2.5' },
+          closed: { d: "M 2 2.5 L 20 2.5" },
+          open: { d: "M 3 16.5 L 17 2.5" },
         }}
       />
       <Path
@@ -115,8 +115,8 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
       />
       <Path
         variants={{
-          closed: { d: 'M 2 16.346 L 20 16.346' },
-          open: { d: 'M 3 2.5 L 17 16.346' },
+          closed: { d: "M 2 16.346 L 20 16.346" },
+          open: { d: "M 3 2.5 L 17 16.346" },
         }}
       />
     </svg>
@@ -127,7 +127,7 @@ const Path = (props: any) => (
   <motion.path
     fill="transparent"
     strokeWidth="2"
-    stroke="hsl(0, 0%, 18%)"
+    stroke="hsl(0, 0%, 55%)"
     strokeLinecap="round"
     {...props}
   />
@@ -163,11 +163,11 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
         >
           <div className="flex flex-row justify-between w-full items-center">
             <span
-              className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
+              className={`${pathname.includes(item.path) ? "font-bold" : ""}`}
             >
               {item.title}
             </span>
-            <div className={`${subMenuOpen && 'rotate-180'}`}>
+            <div className={`${subMenuOpen && "rotate-180"}`}>
               <Icon icon="lucide:chevron-down" width="24" height="24" />
             </div>
           </div>
@@ -183,7 +183,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
                     href={subItem.path}
                     onClick={() => toggleOpen()}
                     className={` ${
-                      subItem.path === pathname ? 'font-bold' : ''
+                      subItem.path === pathname ? "font-bold" : ""
                     }`}
                   >
                     {subItem.title}

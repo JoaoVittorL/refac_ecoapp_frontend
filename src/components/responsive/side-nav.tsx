@@ -9,6 +9,7 @@ import { SIDENAV_ITEMS } from "@/constants";
 import { SideNavItem } from "@/src/types/rotes";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+import OutForm from "../button-out";
 
 const SideNav = () => {
   return (
@@ -26,10 +27,15 @@ const SideNav = () => {
           />
           <span className="font-bold text-xl hidden md:flex">Ecoelétrica</span>
         </Link>
-        <div className="flex flex-col space-y-2  md:px-6 ">
-          {SIDENAV_ITEMS.map((item, idx) => {
-            return <MenuItem key={idx} item={item} />;
-          })}
+        <div className="flex flex-col space-y-2 justify-between h-full">
+          <div className="flex flex-col space-y-2  md:px-6 ">
+            {SIDENAV_ITEMS.map((item, idx) => {
+              return <MenuItem key={idx} item={item} />;
+            })}
+          </div>
+          <div className="flex mx-auto p-6">
+            <OutForm />
+          </div>
         </div>
       </div>
     </div>
@@ -51,7 +57,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
         <>
           <button
             onClick={toggleSubMenu}
-            className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-zinc-100 ${
+            className={`flex flex-row items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-zinc-100 dark:hover:text-blue-dark-900 ${
               pathname.includes(item.path) ? "bg-zinc-100" : ""
             }`}
           >
@@ -87,7 +93,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
         <Link
           href={item.path}
           className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-zinc-100 ${
-            item.path === pathname ? "bg-zinc-100" : ""
+            item.path === pathname ? "bg-zinc-100 dark:text-blue-dark-900" : ""
           }`}
         >
           {item.icon}

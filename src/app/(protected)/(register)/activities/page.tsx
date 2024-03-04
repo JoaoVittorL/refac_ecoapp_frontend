@@ -1,13 +1,13 @@
-import FormService from "@/components/activies/content";
+import FormService from "@/src/components/activies/content";
 import { api } from "@/src/data/api";
-import { ConstructionType } from "@/src/types/rotes";
+import { ServiceType } from "@/src/types/rotes";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Serviço",
 };
 
-async function getData(): Promise<ConstructionType[]> {
+async function getData(): Promise<ServiceType[]> {
   const response = await api("/servicos", {
     next: { revalidate: 30 },
   });

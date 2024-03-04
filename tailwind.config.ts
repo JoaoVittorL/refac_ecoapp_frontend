@@ -19,7 +19,8 @@ const config = {
     },
     extend: {
       colors: {
-        "blue-dark-900": "#0E0048",
+        // "blue-dark-900": "#0E0048",
+        "blue-dark-900": "#090226",
         "blue-800": "#172C78",
         "blue-700": "#0b278c",
         "blue-600": "#13319e",

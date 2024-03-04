@@ -1,4 +1,4 @@
-import FormQuestions from "@/components/questions/table-question";
+import FormQuestions from "@/src/components/questions/table-question";
 import { api } from "@/src/data/api";
 import { QuestionType } from "@/src/types/rotes";
 import { Metadata } from "next";

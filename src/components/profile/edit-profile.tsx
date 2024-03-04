@@ -19,7 +19,7 @@ import { FormError } from "../form-error";
 import { FormSucess } from "../form-sucess";
 import { User } from "@/src/lib/auth";
 
-export const EditProfile = ({data}: {data: User}) => {
+export const EditProfile = ({ data }: { data: User }) => {
   const [error, setError] = useState<string | undefined>("");
   const [sucess, setSucess] = useState<string | undefined>("");
 
@@ -39,60 +39,22 @@ export const EditProfile = ({data}: {data: User}) => {
   };
 
   return (
-    
-    <Card className="max-w-[600px] w-full shadow-md mx-auto p-6">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name={"nome"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={isPeding}
-                    {...field}
-                    type="nome"
-                    value={data.username}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"email"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CPF</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={isPeding}
-                    {...field}
-                    type="email"
-                    value={data.email ?? ""}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex flex-col justify-between md:flex-row w-full gap-2">
+    <div className="p-6">
+      <Card className="max-w-[600px] w-full shadow-md mx-auto p-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name={"password"}
+              name={"nome"}
               render={({ field }) => (
-                <FormItem className="md:w-full">
-                  <FormLabel>Nova senha</FormLabel>
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPeding}
                       {...field}
-                      placeholder="******"
-                      type="password"
-                      className="w-full"
+                      type="nome"
+                      value={data.username}
                     />
                   </FormControl>
                   <FormMessage />
@@ -101,31 +63,75 @@ export const EditProfile = ({data}: {data: User}) => {
             />
             <FormField
               control={form.control}
-              name={"password"}
+              name={"email"}
               render={({ field }) => (
-                <FormItem className="md:w-full">
-                  <FormLabel>Confirmar senha</FormLabel>
+                <FormItem>
+                  <FormLabel>CPF</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPeding}
                       {...field}
-                      placeholder="******"
-                      type="password"
-                      className="w-full"
+                      type="email"
+                      value={data.email ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          </div>
-          <FormError message={error} />
-          <FormSucess message={sucess} />
-          <Button disabled={isPeding} type="submit" className="w-full">
-            Atualizar
-          </Button>
-        </form>
-      </Form>
-    </Card>
+            <div className="flex flex-col justify-between md:flex-row w-full gap-2">
+              <FormField
+                control={form.control}
+                name={"password"}
+                render={({ field }) => (
+                  <FormItem className="md:w-full">
+                    <FormLabel>Nova senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isPeding}
+                        {...field}
+                        placeholder="******"
+                        type="password"
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={"password"}
+                render={({ field }) => (
+                  <FormItem className="md:w-full">
+                    <FormLabel>Confirmar senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isPeding}
+                        {...field}
+                        placeholder="******"
+                        type="password"
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormError message={error} />
+            <FormSucess message={sucess} />
+            <Button
+              disabled={isPeding}
+              type="submit"
+              className="w-full"
+              variant={"default"}
+            >
+              Atualizar
+            </Button>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 };

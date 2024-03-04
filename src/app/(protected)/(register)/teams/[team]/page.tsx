@@ -1,6 +1,5 @@
 import UpdateTeam from "@/src/components/teams/update";
 import { api } from "@/src/data/api";
-import { currentToken } from "@/src/lib/auth";
 
 async function getData(id: string) {
   const response = await api(`/equipes/${id}`);

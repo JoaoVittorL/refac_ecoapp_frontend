@@ -14,12 +14,13 @@ interface Props {
   data: VehicleType[];
 }
 const Form = ({ data }: Props) => {
-  var options = ["caminhão", "leve","apoio"];
+  console.log(data);
+  var options = ["caminhão", "leve", "apoio"];
   const columns = [
     { label: "Placa", key: "placa" },
     { label: "Tipo", key: "tipo" },
     { label: "Equipe", key: "equipe_id" },
-    {label: "Cidade", key: "cidade"}
+    { label: "Cidade", key: "cidade" },
   ];
 
   const itensForPage = 12;

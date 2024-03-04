@@ -1,5 +1,5 @@
 import { Poppins } from "next/font/google";
-import Logo from "../../public/logo.svg";
+import Logo from "../../../public/logo.svg";
 import Image from "next/image";
 
 import { cn } from "@/src/lib/utils";

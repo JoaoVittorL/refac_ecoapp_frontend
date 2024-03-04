@@ -65,7 +65,6 @@ const TableUsers: React.FC<PaginationProps> = ({
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${}`,
           },
           body: JSON.stringify({
             id: id,

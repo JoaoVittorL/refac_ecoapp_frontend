@@ -55,7 +55,6 @@ export type UsersType = {
     carteira: string;
     cidade: string;
     utd: string;
-    token?:string;
   };
   
   export type QuestionType = {
@@ -65,7 +64,6 @@ export type UsersType = {
     categoria: string;
     data_inicial: string;
     data_final: string;
-    token?: string;
   };
   
   export type ServiceType = {
@@ -73,7 +71,6 @@ export type UsersType = {
     codigo: string;
     descricao: string;
     unidade: string;
-    token?:string
   };
   
   export type VehicleType = {
@@ -81,7 +78,6 @@ export type UsersType = {
     placa: string;
     tipo: string;
     equipe_id: string;
-    token: string;
   };
 
   export type TurnsType = {
@@ -91,7 +87,6 @@ export type UsersType = {
     nome: string
     data: string
     placa: string
-    token?: string
   }
   export type SheduleType = {
     id : string
