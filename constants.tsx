@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-// import { SideNavItem } from "./types/rotes";
+import { SideNavItem } from "./src/types/rotes";
 
 export const SIDENAV_ITEMS: SideNavItem[] = [
   {
@@ -13,9 +13,9 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:folder-kanban" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Programação", path: "/production" },
-      { title: "Obra", path: "/production/construction" },
-      { title: "Serviços", path: "/production/services" },
+      { title: "Programação", path: "/shedule" },
+      { title: "Obra", path: "/" },
+      { title: "Serviços", path: "/" },
     ],
   },
   {
@@ -24,12 +24,11 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:file-pen-line" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Usuário", path: "/enrollment/users" },
-      { title: "Equipes", path: "/enrollment/teams" },
-      { title: "Veículo", path: "/enrollment/vehicles" },
-      { title: "Serviço", path: "/enrollment/services" },
-      { title: "Perguntas", path: "/enrollment/questions" },
-      { title: "Obras", path: "/enrollment/constructions" },
+      { title: "Usuário", path: "/users" },
+      { title: "Equipes", path: "/teams" },
+      { title: "Veículo", path: "/vehicles" },
+      { title: "Perguntas", path: "/questions" },
+      { title: "Obras", path: "/constructions" },
     ],
   },
   {
@@ -38,8 +37,8 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     icon: <Icon icon="lucide:circle-user" width="24" height="24" />,
     submenu: true,
     subMenuItems: [
-      { title: "Conta", path: "/account" },
-      { title: "Sair", path: "/account/quit" },
+      { title: "Conta", path: "/profile" },
+      { title: "Sair", path: "/" },
     ],
   },
 ];

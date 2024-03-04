@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
-import { propsSession, prospToken } from "./types/next-auth";
+import { propsSession, prospToken } from "./src/types/next-auth";
 
 export const {
   handlers: { GET, POST },
