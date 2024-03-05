@@ -1,12 +1,5 @@
 import { NextResponse } from "next/server";
 
-
-// const response = await api.post("/perguntas", {
-//   pergunta_resposta: body.pergunta_resposta,
-//   categoria: body.categoria,
-//   tipo: body.tipo,
-// }) 
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();

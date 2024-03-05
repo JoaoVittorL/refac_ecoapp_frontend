@@ -1,6 +1,5 @@
-import NextAuth from "next-auth";
+import NextAuth, { Token, Session } from "next-auth";
 import authConfig from "./auth.config";
-import { propsSession, prospToken } from "./src/types/next-auth";
 
 export const {
   handlers: { GET, POST },
@@ -9,29 +8,30 @@ export const {
   signOut,
 } = NextAuth({
   callbacks: {
-    async session({
-      token,
-      session,
-    }: {
-      token: prospToken;
-      session: propsSession;
-    }) {
+    async session({ session, token }: { session: Session; token: Token }) {
       if (token) {
+        const {
+          username: { colaborador, token: tokenUser },
+        } = token;
+        const { id, nome, email, tipo, cpf, status } = colaborador;
         return {
           ...session,
           user: {
-            id: token.username.colaborador.id,
-            username: token.username.colaborador.nome,
-            email: token.username.colaborador.email,
-            role: token.username.colaborador.tipo,
-            cpf: token.username.colaborador.cpf,
-            status: token.username.colaborador.status,
+            id,
+            username: nome,
+            email,
+            role: tipo,
+            cpf,
+            status,
           },
-          tokenUser: token.username.token,
+          tokenUser,
         };
       }
+
+      console.log(session);
       return session;
     },
+
     async jwt({ token, user }) {
       if (user) {
         return {
@@ -47,4 +47,3 @@ export const {
   },
   ...authConfig,
 });
-

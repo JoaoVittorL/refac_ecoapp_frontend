@@ -1,11 +1,7 @@
 import { api } from '@/src/data/api';
 import { VehicleType } from '@/src/types/rotes';
 import { NextResponse } from 'next/server';
-// const response = await api.post("/perguntas", {
-//   pergunta_resposta: body.pergunta_resposta,
-//   categoria: body.categoria,
-//   tipo: body.tipo,
-// }) 
+
 export async function POST(request: Request) {
     try {
       const body: VehicleType = await request.json();
